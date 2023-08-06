@@ -35,7 +35,7 @@ export default function RegisterForm() {
                 setErr("User Already Exists");
                 return;
             }
-            const res = await fetch("http://localhost:3000/api/auth/signup", {
+            const res = await fetch("/api/auth/signup", {
                 method: "POST",
                 headers: {"content-type": "application/json"},
                 body: JSON.stringify({name,email,password})
