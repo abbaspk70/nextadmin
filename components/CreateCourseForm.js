@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { endpoints } from '@/utilis/endpoints';
 
 export default function CreateCourseForm() {
     const { data: session } = useSession();
@@ -27,7 +28,7 @@ export default function CreateCourseForm() {
             return;
         }
         try {
-            const resUserExists = await fetch("/api/auth/userExists", {
+            const resUserExists = await fetch(`${endpoints}/api/auth/userExists`, {
                 method: "POST",
                 headers: { "content-type": "application/json" },
                 body: JSON.stringify({ email }),
@@ -35,7 +36,7 @@ export default function CreateCourseForm() {
 
             const { user } = await resUserExists.json();
 
-            const res = await fetch("http://localhost:3000/api/courses", {
+            const res = await fetch(`${endpoints}/api/courses`, {
                 method: "POST",
                 headers: { "content-type": "application/json" },
                 body: JSON.stringify({ title, description, price, user })

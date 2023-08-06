@@ -1,0 +1,1 @@
+export const endpoints = process.env.NEXT_PUBLIC_BASE_URL;

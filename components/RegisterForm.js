@@ -3,6 +3,7 @@ import React from 'react'
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { endpoints } from '@/utilis/endpoints';
 
 export default function RegisterForm() {
     const router = useRouter();
@@ -23,7 +24,7 @@ export default function RegisterForm() {
             return;
         }
         try {
-            const resUserExists = await fetch("/api/auth/userExists", {
+            const resUserExists = await fetch(`${endpoints}/api/auth/userExists`, {
                 method: "POST",
                 headers: {"content-type": "application/json"},
                 body: JSON.stringify({email}),
@@ -35,7 +36,7 @@ export default function RegisterForm() {
                 setErr("User Already Exists");
                 return;
             }
-            const res = await fetch("/api/auth/signup", {
+            const res = await fetch(`${endpoints}/api/auth/signup`, {
                 method: "POST",
                 headers: {"content-type": "application/json"},
                 body: JSON.stringify({name,email,password})

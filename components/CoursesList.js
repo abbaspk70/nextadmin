@@ -4,12 +4,13 @@ import { HiPencilAlt } from 'react-icons/hi'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { getServerSession } from 'next-auth';
 import BtnDelete from './BtnDelete';
+import { endpoints } from '@/utilis/endpoints';
 
 export default async function CoursesList() {
     const session = await getServerSession(authOptions);
     const email = session.user.email;
     try {
-        const resUserExists = await fetch("http://localhost:3000/api/auth/userExists", {
+        const resUserExists = await fetch(`${endpoints}/api/auth/userExists`, {
             method: "POST",
             headers: { "content-type": "application/json" },
             body: JSON.stringify({ email }),
@@ -17,7 +18,7 @@ export default async function CoursesList() {
 
         const { user } = await resUserExists.json();
 
-        const res = await fetch("http://localhost:3000/api/coursesList", {
+        const res = await fetch(`${endpoints}/api/coursesList`, {
             method: "POST",
             headers: { "content-type": "application/json" },
             body: JSON.stringify({ user })

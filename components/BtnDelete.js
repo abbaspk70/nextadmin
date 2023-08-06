@@ -3,6 +3,7 @@ import React from 'react'
 import Link from 'next/link'
 import {HiOutlineMinusCircle} from 'react-icons/hi'
 import { useRouter } from 'next/navigation'
+import { endpoints } from '@/utilis/endpoints'
 
 export default function BtnDelete({id}) {
     const router = useRouter();
@@ -10,7 +11,7 @@ export default function BtnDelete({id}) {
         e.preventDefault();
         console.log("submitted")
         try {
-            const res = await fetch(`/api/courses?id=${id}`, {
+            const res = await fetch(`${endpoints}/api/courses?id=${id}`, {
                 method:  "DELETE",
                 headers: {
                     "content-type": "application/json"
