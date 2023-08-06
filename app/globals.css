@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: 255 255 252;
+    --color-secondary: 96 76 249;
+    --color-accent: 72 79 174;
+  }
+}
+
+:root {
+  --foreground-rgb: 255, 255, 252;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+}
+
+@layer components {
+  input, textarea {
+    @apply px-5 py-2 rounded-sm text-black w-[80%] border-slate-300 border-[0.5px]
+  }
+  /* ... */
+}
