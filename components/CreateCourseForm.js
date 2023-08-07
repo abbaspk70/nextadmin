@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { UserExists } from '@/src/actions/userAction';
 import { CreateCourse } from '@/src/actions/courseAction';
+import BtnSubmit from './BtnSubmit';
 
 export default function CreateCourseForm() {
     const { data: session } = useSession();
@@ -63,7 +64,7 @@ export default function CreateCourseForm() {
                     <input onChange={(e) => { setTitle(e.target.value) }} type='text' placeholder='Title' value={title} />
                     <textarea onChange={(e) => { setDescription(e.target.value) }} type='text' placeholder='Description' value={description} />
                     <input onChange={(e) => { setPrice(e.target.value) }} type='number' placeholder='Price' value={price} />
-                    <button type='submit' className='bg-secondary rounded-sm w-[100px] px-5 py-2'>Create</button>
+                    <BtnSubmit/>
                 </form>
                 {err && (
                     <div className="bg-red-600 w-fit rounded-sm ml-8 px-3 py-1">{err}</div>

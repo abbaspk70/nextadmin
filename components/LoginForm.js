@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import {signIn} from "next-auth/react"
 import { useRouter } from 'next/navigation';
+import BtnSignIn from './BtnSignIn';
 
 export default function LoginForm() {
     const router = useRouter();
@@ -11,8 +12,7 @@ export default function LoginForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleSubmit = async (e)=>{
-        e.preventDefault();
+    const handleSubmit = async ()=>{
     
         try {
             const res = await signIn("credentials", {
@@ -33,10 +33,10 @@ export default function LoginForm() {
     <div className='rounded-md overflow-hidden border-[0.5px] border-secondary w-[50%] shadow-xl shadow-accent/20'>
         <div className='flex flex-col'>
             <div className='bg-secondary text-center'><h1 className='p-3 text-xl'>Login</h1></div>
-            <form onSubmit={handleSubmit} className='flex flex-col justify-center items-center gap-y-5 py-3 mt-5'>
+            <form action={handleSubmit} className='flex flex-col justify-center items-center gap-y-5 py-3 mt-5'>
                 <input onChange={(e)=>{setEmail(e.target.value)}} type='email' placeholder='Enter email' value={email}/>
                 <input onChange={(e)=>{setPassword(e.target.value)}} type='password' placeholder='Enter password' value={password}/>
-                <button className='bg-secondary rounded-sm w-[100px] px-5 py-2'>Login</button>
+                <BtnSignIn/>
             </form>
             { err && (
                 <div className="bg-red-600 w-fit rounded-sm ml-8 px-3 py-1">{err}</div>            )}
