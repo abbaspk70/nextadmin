@@ -4,36 +4,27 @@ import { HiPencilAlt } from 'react-icons/hi'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { getServerSession } from 'next-auth';
 import BtnDelete from './BtnDelete';
-import { endpoints } from '@/utilis/endpoints';
+import { GetCoures } from '@/src/actions/courseAction';
+import { UserExists } from '@/src/actions/userAction';
+
 
 export default async function CoursesList() {
     const session = await getServerSession(authOptions);
     const email = session.user.email;
     try {
-        const resUserExists = await fetch(`${endpoints}/api/auth/userExists`, {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify({ email }),
-        });
-
-        const { user } = await resUserExists.json();
-
-        const res = await fetch(`${endpoints}/api/coursesList`, {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify({ user })
-        });
-         var {coursesList}  = await res.json()
-        if (!res.ok) {
-            throw new Error("Failed to fetch Courses")
-        }
-
+        const user = await UserExists(email);
+        if (user) {
+            console.log(user);
+            var courses = await GetCoures(user);
+            console.log(courses);
+         }
     } catch (error) {
         console.log(error);
     }
-    if(coursesList.length > 0) {
+ 
+    if(courses.length > 0) {
     return (
-        <div className='border-[0.5px] border-secondary'> {coursesList.map((listItem,index)=> {
+        <div className='border-[0.5px] border-secondary'> {courses.map((listItem,index)=> {
                 return (
                     <div key={index} className='text-accent'>
                         <div className='flex justify-between items-center bg-primary py-2 px-5'>

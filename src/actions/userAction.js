@@ -6,6 +6,7 @@ import { hash } from 'bcryptjs';
 import { redirect } from 'next/navigation';
 
 
+// for to get user id
 export async function UserExists(email) {
     try {
         await connectMongoDb();
@@ -16,7 +17,7 @@ export async function UserExists(email) {
         console.log(err);
     }
 }
-
+// for creating user
 export async function CreateUser(data) {
     try { 
         // const name = await data.get('name').toString();
@@ -47,3 +48,4 @@ export async function CreateUser(data) {
     }
    
 }
+
