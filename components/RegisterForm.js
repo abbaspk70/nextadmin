@@ -36,7 +36,7 @@ export default function RegisterForm() {
                 setErr("User Already Exists");
                 return;
             }
-            const res = await fetch(`${endpoints}/api/auth/signup`, {
+            const res = await fetch(`https://nextadmin-six.vercel.app/api/auth/signup`, {
                 method: "POST",
                 headers: {"content-type": "application/json"},
                 body: JSON.stringify({name,email,password})
