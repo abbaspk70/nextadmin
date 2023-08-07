@@ -3,7 +3,8 @@ import React from 'react'
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { endpoints } from '@/utilis/endpoints';
+import { UserExists} from '@/src/actions/userAction'
+import { CreateUser } from '@/src/actions/userAction';
 
 export default function RegisterForm() {
     const router = useRouter();
@@ -12,8 +13,7 @@ export default function RegisterForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async () => {
 
         if(!name || !email || !password) {
             setErr("All fields are required");
@@ -24,36 +24,27 @@ export default function RegisterForm() {
             return;
         }
         try {
-            const resUserExists = await fetch(`https://nextadmin-six.vercel.app/api/auth/userExists`, {
-                method: "POST",
-                headers: {"content-type": "application/json"},
-                body: JSON.stringify({email}),
-            });
-
-            const { user } = await resUserExists.json();
-
+            const user = await UserExists(email);
+            
             if(user) {
                 setErr("User Already Exists");
                 return;
             }
-            const res = await fetch(`https://nextadmin-six.vercel.app/api/auth/signup`, {
-                method: "POST",
-                headers: {"content-type": "application/json"},
-                body: JSON.stringify({name,email,password})
-            })
-            if(res.ok){
+            const res = await CreateUser({
+                name,
+                email,
+                password
+            });
+            if(res.status === "success") {
                 setName("");
                 setEmail("");
                 setPassword("");
-                router.push('/');
+                router.push('/')
             }
-            else {
-                throw new Error("Failed to Signup") 
-            }
-
         }
         catch (error) {
             console.log("Error", error)
+            setErr(res.status);
         }
         
     }
@@ -61,11 +52,11 @@ export default function RegisterForm() {
     <div className='rounded-md overflow-hidden border-[0.5px] border-secondary w-[50%] shadow-xl shadow-accent/20'>
         <div className='flex flex-col'>
             <div className='bg-secondary text-center'><h1 className='p-3 text-xl'>Register</h1></div>
-            <form onSubmit={handleSubmit} className='flex flex-col justify-center items-center gap-y-5 py-3 mt-5'>
+            <form action={handleSubmit} className='flex flex-col justify-center items-center gap-y-5 py-3 mt-5'>
             <input onChange={(e)=>{setName(e.target.value)}} type='text' placeholder='Full Name' value={name}/>
                 <input onChange={(e)=>{setEmail(e.target.value)}} type='email' placeholder='Email' value={email}/>
                 <input onChange={(e)=>{setPassword(e.target.value)}} type='password' placeholder='Password' value={password}/>
-                <button className='bg-secondary rounded-sm w-[100px] px-5 py-2'>Signup</button>
+                <button type='submit' className='bg-secondary rounded-sm w-[100px] px-5 py-2'>Signup</button>
             </form>
             { err && (
                 <div className="bg-red-600 w-fit rounded-sm ml-8 px-3 py-1">{err}</div>            )}
