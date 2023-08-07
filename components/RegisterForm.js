@@ -24,7 +24,7 @@ export default function RegisterForm() {
             return;
         }
         try {
-            const resUserExists = await fetch(`${endpoints}/api/auth/userExists`, {
+            const resUserExists = await fetch(`https://nextadmin-six.vercel.app/api/auth/userExists`, {
                 method: "POST",
                 headers: {"content-type": "application/json"},
                 body: JSON.stringify({email}),
