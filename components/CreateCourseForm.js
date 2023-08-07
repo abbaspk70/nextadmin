@@ -1,10 +1,10 @@
 'use client'
 import React from 'react'
 import { useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { endpoints } from '@/utilis/endpoints';
+import { UserExists } from '@/src/actions/userAction';
+import { CreateCourse } from '@/src/actions/courseAction';
 
 export default function CreateCourseForm() {
     const { data: session } = useSession();
@@ -16,8 +16,7 @@ export default function CreateCourseForm() {
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async () => {
 
         if (!title) {
             setErr("Title is required");
@@ -27,26 +26,24 @@ export default function CreateCourseForm() {
             setErr("Price cannot be less than 0")
             return;
         }
+        console.log(email)
         try {
-            const resUserExists = await fetch(`${endpoints}/api/auth/userExists`, {
-                method: "POST",
-                headers: { "content-type": "application/json" },
-                body: JSON.stringify({ email }),
-            });
-
-            const { user } = await resUserExists.json();
-
-            const res = await fetch(`${endpoints}/api/courses`, {
-                method: "POST",
-                headers: { "content-type": "application/json" },
-                body: JSON.stringify({ title, description, price, user })
-            })
-            if (res.ok) {
-                setTitle("");
-                setDescription("");
-                setPrice("");
-                router.push('/dashboard/courses');
-                router.refresh();
+            const  user  = await UserExists(email);
+            console.log(user)
+            if (user) {
+                const res = await CreateCourse({
+                    title: title,
+                    description : description,
+                    price: price,
+                    user: user,
+                });
+                if (res.status === "success") {
+                    setTitle("");
+                    setDescription("");
+                    setPrice("");
+                    router.push('/dashboard/courses');
+                    router.refresh();
+                }
             }
             else {
                 throw new Error("Failed to Create Course")
@@ -62,11 +59,11 @@ export default function CreateCourseForm() {
         <div className='rounded-md overflow-hidden border-[0.5px] border-secondary w-[80%] shadow-xl shadow-accent/20'>
             <div className='flex flex-col'>
                 <div className='bg-secondary text-center'><h1 className='p-3 text-xl'>Add New Course</h1></div>
-                <form onSubmit={handleSubmit} className='flex flex-col justify-center items-center gap-y-5 py-3 mt-5'>
+                <form action={handleSubmit} className='flex flex-col justify-center items-center gap-y-5 py-3 mt-5'>
                     <input onChange={(e) => { setTitle(e.target.value) }} type='text' placeholder='Title' value={title} />
                     <textarea onChange={(e) => { setDescription(e.target.value) }} type='text' placeholder='Description' value={description} />
                     <input onChange={(e) => { setPrice(e.target.value) }} type='number' placeholder='Price' value={price} />
-                    <button className='bg-secondary rounded-sm w-[100px] px-5 py-2'>Create</button>
+                    <button type='submit' className='bg-secondary rounded-sm w-[100px] px-5 py-2'>Create</button>
                 </form>
                 {err && (
                     <div className="bg-red-600 w-fit rounded-sm ml-8 px-3 py-1">{err}</div>
