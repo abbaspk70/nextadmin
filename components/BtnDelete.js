@@ -4,25 +4,20 @@ import Link from 'next/link'
 import {HiOutlineMinusCircle} from 'react-icons/hi'
 import { useRouter } from 'next/navigation'
 import { endpoints } from '@/utilis/endpoints'
+import { DeletCourse } from '@/src/actions/courseAction'
 
 export default function BtnDelete({id}) {
     const router = useRouter();
-    const handleSubmit= async(e) => {
-        e.preventDefault();
+    const handleSubmit= async () => {
         console.log("submitted")
         try {
-            const res = await fetch(`${endpoints}/api/courses?id=${id}`, {
-                method:  "DELETE",
-                headers: {
-                    "content-type": "application/json"
-                },
-                body: JSON.stringify({id})
-            })
-            if(res.ok){
+            const res = await DeletCourse(id)
+         if(res.status === "success"){
             router.refresh()
             }
         } catch (error) {
             console.log(error)
+            console.log(res.status)
         }
     }
   return (

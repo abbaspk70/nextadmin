@@ -15,8 +15,11 @@ export default async function CoursesList() {
         const user = await UserExists(email);
         if (user) {
             console.log(user);
-            var courses = await GetCoures(user);
-            console.log(courses);
+            const data = await GetCoures(user);
+             if(data.status ===  "success"){
+                var {courses} = data
+                console.log(courses);
+             }
          }
     } catch (error) {
         console.log(error);

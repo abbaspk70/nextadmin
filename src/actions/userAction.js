@@ -43,7 +43,7 @@ export async function CreateUser(data) {
         return { status: "success", message: "User created succefully" };
     } catch (err) { 
         console.log(err);
-        return { status: "Error", message: "Error while careating User" };
+        return { status: "error", message: "Error while careating User" };
 
     }
    
