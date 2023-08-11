@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { HiPlus } from 'react-icons/hi'
 import CoursesList from '@/components/CoursesList'
 import Loading from './loading'
-import Animations from '@/components/Loading'
+import DataLoading from '@/components/loaders/DataLoading'
 
 export default function page() {
   return (
@@ -18,7 +18,7 @@ export default function page() {
         </Link>
         </div>
       </div>
-      <Suspense fallback={<Animations />}><CoursesList /></Suspense>
+      <Suspense fallback={<DataLoading />}><CoursesList /></Suspense>
     </div>
   )
 }

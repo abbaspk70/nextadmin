@@ -15,6 +15,7 @@ const navData = [
   { title: 'courses', path: '/dashboard/courses', icon: <HiOutlineAcademicCap /> },
   { title: 'staff', path: '/dashboard/staff', icon: <FaChalkboardTeacher /> },
   { title: 'students', path: '/dashboard/students', icon: <FaUserGraduate /> },
+  { title: 'customers', path: '/dashboard/customers', icon: <FaUserGraduate /> },
 ];
 
 export default function Nav() {

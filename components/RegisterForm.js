@@ -5,8 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { UserExists} from '@/src/actions/userAction'
 import { CreateUser } from '@/src/actions/userAction';
-import BtnSignup from '@/app/signup/BtnSignup'
-
+import BtnSubmit from './buttons/BtnSubmit';
 export default function RegisterForm() {
     const router = useRouter();
     const [name,setName] = useState("");
@@ -57,7 +56,7 @@ export default function RegisterForm() {
             <input onChange={(e)=>{setName(e.target.value)}} type='text' placeholder='Full Name' value={name}/>
                 <input onChange={(e)=>{setEmail(e.target.value)}} type='email' placeholder='Email' value={email}/>
                 <input onChange={(e)=>{setPassword(e.target.value)}} type='password' placeholder='Password' value={password}/>
-                <BtnSignup/>
+                <BtnSubmit title={"Sign up"}/>
             </form>
             { err && (
                 <div className="bg-red-600 w-fit rounded-sm ml-8 px-3 py-1">{err}</div>            )}

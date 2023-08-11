@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import {signIn} from "next-auth/react"
 import { useRouter } from 'next/navigation';
-import BtnSignIn from './BtnSignIn';
+import BtnSubmit from './buttons/BtnSubmit';
 
 export default function LoginForm() {
     const router = useRouter();
@@ -36,7 +36,7 @@ export default function LoginForm() {
             <form action={handleSubmit} className='flex flex-col justify-center items-center gap-y-5 py-3 mt-5'>
                 <input onChange={(e)=>{setEmail(e.target.value)}} type='email' placeholder='Enter email' value={email}/>
                 <input onChange={(e)=>{setPassword(e.target.value)}} type='password' placeholder='Enter password' value={password}/>
-                <BtnSignIn/>
+                <BtnSubmit title={"Sign in"}/>
             </form>
             { err && (
                 <div className="bg-red-600 w-fit rounded-sm ml-8 px-3 py-1">{err}</div>            )}

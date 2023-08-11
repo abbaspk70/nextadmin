@@ -1,12 +1,12 @@
 'use client'
 import React from 'react'
-import Link from 'next/link'
 import {HiOutlineMinusCircle} from 'react-icons/hi'
 import { useRouter } from 'next/navigation'
-import { endpoints } from '@/utilis/endpoints'
 import { DeletCourse } from '@/src/actions/courseAction'
+import {experimental_useFormStatus as  useFormStatus} from 'react-dom'
 
 export default function BtnDelete({id}) {
+  const {pending} = useFormStatus();
     const router = useRouter();
     const handleSubmit= async () => {
         console.log("submitted")
@@ -22,6 +22,6 @@ export default function BtnDelete({id}) {
     }
   return (
 
-    <button onClick={handleSubmit}><HiOutlineMinusCircle/></button>
+    <button onClick={handleSubmit}>{pending? <CircularIndeterminate/> : <HiOutlineMinusCircle/>}</button>
   )
 }

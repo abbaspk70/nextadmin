@@ -1,0 +1,10 @@
+
+@layer components {
+  input, textarea {
+    @apply px-5 py-2 rounded-sm text-black w-[80%] border-slate-300 border-[0.5px]
+  }
+  h1, h2, h3, h4, h5{
+  @apply m-10
+  }
+  }
+

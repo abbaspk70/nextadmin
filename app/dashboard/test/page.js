@@ -4,7 +4,7 @@ import PageLoader from '@/components/loaders/PageLoader'
 
 export default function page() {
   return (
-    <div className='text-black my-20 xl:px-8 px-5 md:ml-[300px] w-full h-screen'>
+    <div className='md:ml-[300px] h-full'>
     <PageLoader/>
       </div>
    
