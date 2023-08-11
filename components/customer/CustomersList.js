@@ -4,7 +4,6 @@ import CustomerTable from './CustomerTable';
 import { Suspense, useState } from'react';
 import BtnSubmit from '../buttons/BtnSubmit';
 import BtnLink from '../buttons/BtnLink';
-import DataLoading from '../loaders/DataLoading';
 
 export default function CustomersList({onSubmit}) {
     const [customers, setCustomers] = useState([]);
