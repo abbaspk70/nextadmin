@@ -49,10 +49,10 @@ export default function RegisterForm() {
         
     }
   return (
-    <div className='rounded-md overflow-hidden border-[0.5px] border-secondary w-[50%] shadow-xl shadow-accent/20'>
+    <div className='rounded-md overflow-hidden border-[0.5px] border-secondary w-full shadow-xl shadow-accent/20'>
         <div className='flex flex-col'>
-            <div className='bg-secondary text-center'><h1 className='p-3 text-xl'>Register</h1></div>
-            <form action={handleSubmit} className='flex flex-col justify-center items-center gap-y-5 py-3 mt-5'>
+            <div className='bg-secondary text-center'><h2 className='p-3'>Register</h2></div>
+            <form action={handleSubmit} className='flex flex-col justify-center items-center gap-y-5 p-3 mt-5'>
             <input onChange={(e)=>{setName(e.target.value)}} type='text' placeholder='Full Name' value={name}/>
                 <input onChange={(e)=>{setEmail(e.target.value)}} type='email' placeholder='Email' value={email}/>
                 <input onChange={(e)=>{setPassword(e.target.value)}} type='password' placeholder='Password' value={password}/>
@@ -60,7 +60,7 @@ export default function RegisterForm() {
             </form>
             { err && (
                 <div className="bg-red-600 w-fit rounded-sm ml-8 px-3 py-1">{err}</div>            )}
-            <div><h3 className='text-black float-right mb-3 mr-5'>Already registered? <span className='underline text-accent'><Link href={'/'}>Login</Link></span></h3></div>
+            <div><p className='text-black float-right mb-3 mr-5'>Already registered? <span className='underline text-accent'><Link href={'/'}>Login</Link></span></p></div>
         </div>
     </div>
   )

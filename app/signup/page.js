@@ -9,6 +9,6 @@ export default async function page() {
        
         if(session) redirect("/dashboard")
 
-    return (<div className='flex h-screen justify-center items-center mx-auto w-full'><RegisterForm /></div>
+    return (<div className='h-screen mx-5 md:mx-32 xl:mx-96 flex items-center justify-center'><RegisterForm /></div>
     )
 }

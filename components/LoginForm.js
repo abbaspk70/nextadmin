@@ -30,10 +30,10 @@ export default function LoginForm() {
         }  
     };
   return (
-    <div className='rounded-md overflow-hidden border-[0.5px] border-secondary w-[50%] shadow-xl shadow-accent/20'>
+    <div className='rounded-md overflow-hidden border-[0.5px] border-secondary w-full shadow-xl shadow-accent/20'>
         <div className='flex flex-col'>
-            <div className='bg-secondary text-center'><h1 className='p-3 text-xl'>Login</h1></div>
-            <form action={handleSubmit} className='flex flex-col justify-center items-center gap-y-5 py-3 mt-5'>
+            <div className='bg-secondary text-center'><h1 className='p-3 text-2xl'>Login</h1></div>
+            <form action={handleSubmit} className='flex flex-col justify-center items-center gap-y-5 py-3 px-5 mt-5'>
                 <input onChange={(e)=>{setEmail(e.target.value)}} type='email' placeholder='Enter email' value={email}/>
                 <input onChange={(e)=>{setPassword(e.target.value)}} type='password' placeholder='Enter password' value={password}/>
                 <BtnSubmit title={"Sign in"}/>

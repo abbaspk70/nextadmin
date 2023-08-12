@@ -1,3 +1,4 @@
+'use client'
 import Link from 'next/link';
 import {experimental_useFormStatus as  useFormStatus} from 'react-dom'
 

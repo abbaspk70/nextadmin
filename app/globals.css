@@ -32,6 +32,14 @@ body {
   input, textarea {
     @apply px-5 py-2 rounded-sm text-black w-full border-slate-300 border-[0.5px]
   }
+  h2 {
+  @apply text-2xl
+  }
+  h3 {
+  @apply text-xl
+  }
+  h4 { 
+  @apply text-lg}
   /* ... */
 }
 

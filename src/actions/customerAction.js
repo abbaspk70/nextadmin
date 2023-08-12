@@ -17,20 +17,19 @@ export async function CreateCustomer(data) {
     const state = await data?.get('state').toString();
     const country = await data?.get('country').toString();
     const user = await data?.get('user');
-    
+
     //create objects
-    const contact = {email,phone,mobile};
-    const address =  {street, city,state,country};
+    const contact = { email, phone, mobile };
+    const address = { street, city, state, country };
 
     //check if first name is empty
     if (!firstName) {
         console.log('First name is missing');
-        return {status : 'error', message : 'First name is missing'};
+        return { status: 'error', message: 'First name is missing' };
     }
 
     //get Counter
     const customerId = await CreateCounter()
-    console.log(customerId)
     await connectMongoDb();
     const customer = await new Customers({
         customerId,
@@ -42,7 +41,7 @@ export async function CreateCustomer(data) {
     })
     await customer.save();
     console.log(customer);
-    return {status :'success', message : 'Customer created'};
+    return { status: 'success', message: 'Customer created' };
 }
 
 
@@ -52,5 +51,20 @@ export async function getCustomers(data) {
     await connectMongoDb();
     const customers = await Customers.find(data);
     console.log(customers);
-    return {status :'success', customers};
+    return { status: 'success', customers };
+}
+
+//get Customer and update it
+
+export async function getCustomerAndUpdate(id, orderId) {
+    const filter = {_id: id };
+    try {
+        await connectMongoDb();
+        const order = await Customers.findOneAndUpdate(filter, {$push:{orders: orderId}}, { new: true });
+        return { status: 'success', order };
+
+    } catch (err) {
+        console.log(err);
+    }
+
 }

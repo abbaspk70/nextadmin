@@ -7,6 +7,6 @@ export default async function Home() {
   const session = await getServerSession(authOptions);
   if (session) redirect("/dashboard");
   return (
-    <div className='flex h-screen justify-center items-center mx-auto w-full'><LoginForm/></div>
+    <div className='h-screen mx-5 md:mx-32 xl:mx-96 flex items-center justify-center'><LoginForm/></div>
   )
 }

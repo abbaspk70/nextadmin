@@ -8,6 +8,7 @@ import BtnLink from '../buttons/BtnLink';
 export default function CustomersList({onSubmit}) {
     const [customers, setCustomers] = useState([]);
     const handleSubmit = async(formData)=> {
+        
        const data =  await onSubmit(formData);
        setCustomers(JSON.parse(data));
     }

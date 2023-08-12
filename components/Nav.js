@@ -30,7 +30,7 @@ export default function Nav() {
       <div className='bg-accent'>
         <div className='flex items-center justify-between md:flex-col md:items-start gap-y-4 mx-5 py-1'>
           <button onClick={handleClick}  className={`${menu? 'bg-primary/50': 'bg-primary/10'} transition-all duration-300 flex items-center justify-center md:hidden h-[40px] w-[40px] rounded-sm`}><FaBars className='text-2xl' /> </button>
-          <Link className='flex items-center gap-x-5' href={'/dashboard'}><div>Logo</div><div className='text-2xl'>Win Academy</div></Link>
+          <Link className='flex items-center gap-x-5' href={'/dashboard'}><div>Logo</div><div className='text-2xl'>ES Solutions</div></Link>
           <Link className='hidden md:block' href={'/dashboard'}>
             <div className='flex items-center gap-x-5'><Image className='rounded-full' src={`${session?.user?.image ? session?.user?.image : "/default-image.jpeg"}`} width={49} height={49} alt='' /><div className=' text-lg flex flex-col capitalize'><span className='text-sm'>welcome</span>{session?.user?.name}</div></div></Link>
         </div>

@@ -1,7 +1,9 @@
 import React, { Suspense } from 'react'
 import Link from 'next/link'
-export default function CustomerTable({ customers }) {
-    if (customers.length > 0)
+import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
+
+export default function OrdersList({ orders }) {
+    if (orders.length > 0)
     return (
         <div className='overflow-auto'>
         <div className='w-full table'>
@@ -14,13 +16,13 @@ export default function CustomerTable({ customers }) {
                 </div>
             </div>
             <div className='table-row-group bg-black/5'>
-                {customers.map((customer,index) =>{
+                {orders.map((order,index) =>{
                     return (
-                        <Link key={index} href={`/dashboard/customers/${customer._id}`} className='table-row'>
-                        <div className='p-2 table-cell border-b-[1px] '>{customer.customerId}</div>
-                        <div className='p-2 table-cell border-x-[1px] border-b-[1px] capitalize'>{customer.firstName} {customer.lastName}</div>
-                        <div className='p-2 table-cell border-b-[1px]'>{customer.contact.phone}</div>
-                        <div className='p-2 table-cell border-l-[1px] border-b-[1px]'>{customer.contact.email}</div>
+                        <Link key={index} href={`/dashboard/orders/${order._id}`} className='table-row'>
+                        <div className='p-2 table-cell border-b-[1px] '>{order.orderId}</div>
+                        <div className='p-2 table-cell border-b-[1px] '>{order.status}</div>
+                        <div className='p-2 table-cell border-b-[1px] '><AiOutlineEdit/></div>
+                        <div className='p-2 table-cell border-b-[1px] text-red-600 '><AiOutlineDelete/></div>
                     </Link>
                     )
                 })}

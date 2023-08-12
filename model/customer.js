@@ -10,13 +10,13 @@ const CustomerSchema = new Schema({
     lastName: {type: String, lowercase: true,
         maxLength: [30, "Full name shoud be less than  30 characters"]
     },
-    email: {type: String,},
     contact: {
-        email: {type: String },
+        email: {type: String, lowercase: true },
         phone: {type: String},
         mobile: {type: String},
 },
     address: {street: String, city: String , state: String, country: String},
+    orders: [{type:mongoose.Schema.Types.ObjectId, ref: "orders"}],
     user :{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Users'
