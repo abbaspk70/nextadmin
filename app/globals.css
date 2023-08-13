@@ -39,9 +39,14 @@ body {
   @apply text-xl
   }
   h4 { 
-  @apply text-lg}
+  @apply text-lg
+  }
+  h1 {
+  @apply text-3xl
+  }
   /* ... */
 }
+
 
 .customerLoader { 
 

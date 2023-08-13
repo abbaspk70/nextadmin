@@ -2,8 +2,9 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { HiOutlineAcademicCap, HiHome, HiLogout } from 'react-icons/hi'
-import { FaUserGraduate, FaChalkboardTeacher, FaBars } from 'react-icons/fa'
+import {AiOutlineDollar, AiOutlineRead} from 'react-icons/ai'
+import {  HiHome, } from 'react-icons/hi'
+import { FaBars, FaRegUser } from 'react-icons/fa'
 import { usePathname } from 'next/navigation'
 import Logout from './Logout'
 import { useState } from 'react'
@@ -12,10 +13,10 @@ import { useSession } from "next-auth/react"
 
 const navData = [
   { title: 'home', path: '/dashboard', icon: <HiHome /> },
-  { title: 'courses', path: '/dashboard/courses', icon: <HiOutlineAcademicCap /> },
-  { title: 'staff', path: '/dashboard/staff', icon: <FaChalkboardTeacher /> },
-  { title: 'students', path: '/dashboard/students', icon: <FaUserGraduate /> },
-  { title: 'customers', path: '/dashboard/customers', icon: <FaUserGraduate /> },
+  { title: 'customers', path: '/dashboard/customers', icon: <FaRegUser /> },
+  { title: 'orders', path: '/dashboard/orders', icon: <AiOutlineDollar /> },
+  { title: 'terms', path: '/dashboard/terms', icon: <AiOutlineRead /> },
+
 ];
 
 export default function Nav() {

@@ -1,33 +1,38 @@
 import React, { Suspense } from 'react'
 import Link from 'next/link'
-import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
+import { AiOutlineDelete, AiOutlineEdit, AiOutlinePause, AiOutlineCheck } from 'react-icons/ai'
+import { getOrders } from '@/src/actions/orderAction'
 
-export default function OrdersList({ orders }) {
+export default async function OrdersList({ data}) {
+    const orders = await getOrders(data)
+    
     if (orders.length > 0)
-    return (
-        <div className='overflow-auto'>
-        <div className='w-full table'>
-            <div className='table-header-group text-primary'>
-                <div className='table-row bg-accent'>
-                    <div className='p-2 table-cell'>Id</div>
-                    <div className='p-2 table-cell border-x-[1px]'>Name</div>
-                    <div className='p-2 table-cell '>Phone</div>
-                    <div className='p-2 table-cell border-l-[1px]'>Email</div>
+        return (
+            <div className='overflow-auto'>
+                <div className='tablecontainer w-full flex flex-col justify-between'>
+                    <div className='tablehead flex flex-col text-primary'>
+                        <div className='tablerow flex items-center bg-accent rounded-t-md'>
+                            <div className='p-2 flex-grow-[7]'>Order Id</div>
+                            <div className='p-2 flex-grow-[7]'></div>
+                            <div className='p-2'></div>
+                            <div className='p-2'></div>
+                            <div className='p-2'></div>
+                        </div>
+                    </div>
+                    <div className='rowhead flex flex-col text-black'>
+                        {orders.map((order, index) => {
+                            return (
+                                <div key={index} className='tablerow flex items-center gap-2 border-b-[1px] bg-slate-100'>
+                                    <Link className='p-2 flex-grow-[7]' href={`/dashboard/orders/${order._id}`} ><div className=''>{order.orderId}</div></Link>
+                                    <div className='p-2 flex-grow-[7]'>{order.createdAt.getFullYear()}-{order.createdAt.getMonth()+1}-{order.createdAt.getDate()}</div>
+                                    <div className='p-2'>{order.status === "Pending" ? <AiOutlinePause/> : <AiOutlineCheck className="text-green" />}</div>
+                                    <div className='p-2'><AiOutlineEdit /></div>
+                                    <div className='p-2 text-red-600'><AiOutlineDelete /></div>
+                                </div>
+                            )
+                        })}
+                    </div>
                 </div>
             </div>
-            <div className='table-row-group bg-black/5'>
-                {orders.map((order,index) =>{
-                    return (
-                        <Link key={index} href={`/dashboard/orders/${order._id}`} className='table-row'>
-                        <div className='p-2 table-cell border-b-[1px] '>{order.orderId}</div>
-                        <div className='p-2 table-cell border-b-[1px] '>{order.status}</div>
-                        <div className='p-2 table-cell border-b-[1px] '><AiOutlineEdit/></div>
-                        <div className='p-2 table-cell border-b-[1px] text-red-600 '><AiOutlineDelete/></div>
-                    </Link>
-                    )
-                })}
-            </div>
-        </div>
-        </div>
-    )
+        )
 }

@@ -16,6 +16,7 @@ export async function CreateOrder(data) {
     const b_state = await data?.get("b_state").toString();
     const b_zip = await data?.get("b_zip").toString();
     const b_country = await data?.get("b_country").toString();
+    const terms = await data?.get("terms").toString();
     const itemId = await data?.get("itemId").toString();
     const itemName = await data?.get("itemName").toString();
     const description = await data?.get("description").toString();
@@ -56,6 +57,7 @@ export async function CreateOrder(data) {
             customerObjId,
             shipping,
             billing,
+            terms,
             items,
             user,
         })

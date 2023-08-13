@@ -7,7 +7,6 @@ import { getCustomers } from '@/src/actions/customerAction';
 
 export default async function page({searchParams}) {
     const {id} = searchParams;
-    console.log(id);
     const session = await getServerSession(authOptions);
     //get user
     const email = session.user.email;

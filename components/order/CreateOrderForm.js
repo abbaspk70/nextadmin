@@ -3,23 +3,24 @@ import BtnSubmit from '../buttons/BtnSubmit'
 import BtnLink from '../buttons/BtnLink'
 import { CreateOrder } from '@/src/actions/orderAction';
 import { getCustomerAndUpdate } from '@/src/actions/customerAction';
+import { redirect } from 'next/navigation'
+import { GetTerms } from '@/src/actions/termAction';
 
 
-export default function CreateOrderForm({customer, user}) {
- 
+export default async function CreateOrderForm({customer, user}) {
+  const terms = await GetTerms(user)
   const handleSubmit = async(formData) => {
     'use server'
     try {
       formData.append("user", user._id);
       formData.append("customerObjId", customer._id);
-      const {order} = await CreateOrder(formData);
-      getCustomerAndUpdate(customer._id, order._id);
-      console.log(order._id);
-
+      const orderRespone = await CreateOrder(formData);
+      var {order} = orderRespone;
+      await getCustomerAndUpdate(customer._id, order._id);        
     } catch (err) { 
       console.log(err);
     }
-
+    redirect(`dashboard/orders/${order._id}`)        
   }
   console.log();
   return (
@@ -66,6 +67,10 @@ export default function CreateOrderForm({customer, user}) {
           </div>
         </div>
         <hr />
+        <div className='flex flex-col gap-3'>
+          <h4>Terms and Conditions</h4>
+          <textarea rows={5} name="terms" defaultValue={terms?.description}/>
+        </div>
         <div className='flex flex-col gap-3'>
           <h3>Order Info</h3>
           <div className='grid grid-cols-10 gap-x-3'>
