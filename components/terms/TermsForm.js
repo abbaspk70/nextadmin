@@ -6,8 +6,8 @@ import { GetTerms } from '@/src/actions/termAction';
 import { redirect } from 'next/navigation';
 
 export default async function ({ user }) {
+    user = JSON.parse(user);
     const terms = await GetTerms(user);
-    console.log(terms);
     const handleSubmit = async (formData) => {
         'use server'
         if (user) {

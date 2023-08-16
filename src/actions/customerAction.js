@@ -40,7 +40,6 @@ export async function CreateCustomer(data) {
         user
     })
     await customer.save();
-    console.log(customer);
     return { status: 'success', message: 'Customer created' };
 }
 
@@ -50,7 +49,6 @@ export async function CreateCustomer(data) {
 export async function getCustomers(data) {
     await connectMongoDb();
     const customers = await Customers.find(data);
-    console.log(customers);
     return { status: 'success', customers };
 }
 

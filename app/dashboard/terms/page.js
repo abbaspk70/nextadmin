@@ -16,7 +16,7 @@ export default async function page() {
                 <h2>Sales terms & condidtions</h2>
             </div>
             <div className='text-black'>
-                <TermsForm user={user}/>
+                <TermsForm user={JSON.stringify(user)}/>
             </div>
         </div>
     )

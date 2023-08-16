@@ -2,6 +2,7 @@ import React, { Suspense } from 'react'
 import Link from 'next/link'
 import { AiOutlineDelete, AiOutlineEdit, AiOutlinePause, AiOutlineCheck } from 'react-icons/ai'
 import { getOrders } from '@/src/actions/orderAction'
+import BtnDeleteOrder from './BtnDeleteOrder'
 
 export default async function OrdersList({ data}) {
     const orders = await getOrders(data)
@@ -26,8 +27,8 @@ export default async function OrdersList({ data}) {
                                     <Link className='p-2 flex-grow-[7]' href={`/dashboard/orders/${order._id}`} ><div className=''>{order.orderId}</div></Link>
                                     <div className='p-2 flex-grow-[7]'>{order.createdAt.getFullYear()}-{order.createdAt.getMonth()+1}-{order.createdAt.getDate()}</div>
                                     <div className='p-2'>{order.status === "Pending" ? <AiOutlinePause/> : <AiOutlineCheck className="text-green" />}</div>
-                                    <div className='p-2'><AiOutlineEdit /></div>
-                                    <div className='p-2 text-red-600'><AiOutlineDelete /></div>
+                                    <Link href={`/dashboard/edit/order/${order._id}`} className='p-2'><AiOutlineEdit /></Link>
+                                    <div className='p-2 text-red-600 cursor-pointer'><BtnDeleteOrder id={JSON.stringify(order._id)}/></div>
                                 </div>
                             )
                         })}
