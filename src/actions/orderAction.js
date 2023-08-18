@@ -2,7 +2,6 @@
 import Orders from "@/model/orders";
 import { connectMongoDb } from "@/lib/mongodb";
 import { CreateCounter } from "./counterAction";
-import { redirect } from "next/navigation";
 
 // create new order
 export async function CreateOrder(data) {
@@ -102,6 +101,7 @@ export async function getOrder(data) {
     try {
         await connectMongoDb().catch(error=>console.log(error));
         return await Orders.findOne(data);
+
     }catch (e) {
         console.log(e);
     }
@@ -152,12 +152,24 @@ export async function findOrderandUpdate(filter,data) {
 
     try {
         await connectMongoDb().catch(error=>console.log(error));
-        return await Orders.findOneAndUpdate(filter,{
+        const order = await Orders.findOneAndUpdate(filter,{
             shipping,
             billing,
             terms,
             items,
         },{new: true});
+        return ({status: 'success', order})
+    }catch (e) {
+        console.log(e);
+    }
+}
+
+//get orders 
+export async function getOrdersByUser(data) {
+    try {
+        await connectMongoDb().catch(error=>console.log(error));
+        const orders = await Orders.find(data).sort({createdAt: "desc"});
+        return JSON.stringify(orders);
     }catch (e) {
         console.log(e);
     }

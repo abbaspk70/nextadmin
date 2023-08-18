@@ -1,7 +1,7 @@
 import mongoose,{Schema,models} from 'mongoose'
 
 const OrdersSchema = new Schema({
-    orderId: {type: Number, required: true, unique: true},
+    orderId: {type: String, required: true, unique: true},
     status: {type: String, default: "Pending"},
     customerObjId: {type: Schema.Types.ObjectId, ref: 'Customers'},
     shipping: {street: {type: String}, city: {type: String}, state: {type: String},zip: {type: String}, country: {type: String}},

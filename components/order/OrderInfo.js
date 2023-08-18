@@ -1,11 +1,10 @@
 
-import { getOrders } from '@/src/actions/orderAction'
 import { getCustomers } from '@/src/actions/customerAction';
+import { getOrder } from '@/src/actions/orderAction';
 
 export default async function OrderInfo({ id, user }) {
     let subTotal = 0;
-    const orders = await getOrders({ _id: id, user: user });
-    const order = orders[0];
+    const order = await getOrder({ _id: id, user: user });
     const { street, city, state, zip, country } = order.shipping;
     //get date from order
     const year = order.createdAt.getFullYear();
@@ -26,6 +25,7 @@ export default async function OrderInfo({ id, user }) {
             </div>
             <div className=''>
                 <div>Order Date: {year}-{month}-{day}</div>
+                <div>Customer# {customer.customerId}</div>
                 <div>Order# {order.orderId}</div>
             </div>
             <div className='capitalize flex w-full justify-between'>
@@ -64,10 +64,10 @@ export default async function OrderInfo({ id, user }) {
                         <div className='col-span-2 text-center'>quantity</div>
                         <div className='col-span-1 text-center'>amount</div>
                     </div>
-                    <div className='border-2 flex flex-col gap-5'>
+                    <div className='border-2 flex flex-col gap-2'>
                         {order.items.map((item, index) => {
                             return (
-                                <div key={index} className='grid grid-cols-12 w-full justify-between bg-slate-950/5 py-2 px-5  gap-x-5' >
+                                <div key={index} className='grid grid-cols-12 w-full justify-between bg-slate-950/5 py-1 px-5 gap-x-5' >
                                     <div className='col-span-2'>{item.itemId}</div>
                                     <div className='col-span-5'>{item.itemName}</div>
                                     <div className='col-span-2 text-center'>{item.price}</div>

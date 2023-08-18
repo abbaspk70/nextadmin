@@ -19,10 +19,12 @@ export default async function page() {
         const name = await formData.get('name');
         const email = await formData.get('email');
         const phone = await formData.get('phone');
+        const customerId = await formData.get('customerId');
 
         const res = await getCustomers({
           $and: [
             { user: user },
+            {'customerId':{$regex:customerId}},
             { $or: [{ firstName: { $regex: `(?i)${name}` } }, { lastName: { $regex: `(?i)${name}` } }] },
             { "contact.email": { $regex: `(?i)${email}` } },
             {

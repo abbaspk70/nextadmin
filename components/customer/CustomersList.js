@@ -14,8 +14,9 @@ export default function CustomersList({onSubmit}) {
     }
     return (
         <div>
-            <form action={handleSubmit} className='flex flex-col gap-2 py-3 items-end'>
+            <form action={handleSubmit} className='flex flex-col gap-5 py-3 px-5 items-end'>
                 <div className='w-full flex flex-col md:flex-row gap-5 '>
+                    <input type="text" name='customerId' placeholder="Search customer Id" />
                     <input type="text" name='name' placeholder="Search name" />
                     <input type="text" name='email' placeholder="Search email" />
                     <input type="text" name='phone' placeholder="Search phone" />

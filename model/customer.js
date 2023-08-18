@@ -1,7 +1,7 @@
 import mongoose, {Schema, models} from "mongoose";
 
 const CustomerSchema = new Schema({
-    customerId: {type: Number, required: true, unique: true},
+    customerId: {type: String, required: true, unique: true},
 
     firstName: {type: String,lowercase: true, required: [true, "can't be blank"],
     minLength: [1, "Full name should be atleast 4 characters long"],
