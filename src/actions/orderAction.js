@@ -2,7 +2,9 @@
 import Orders from "@/model/orders";
 import { connectMongoDb } from "@/lib/mongodb";
 import { CreateCounter } from "./counterAction";
-
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { UserExists } from "./userAction";
 // create new order
 export async function CreateOrder(data) {
     const customerObjId = await data?.get("customerObjId");
@@ -46,16 +48,16 @@ export async function CreateOrder(data) {
 
     // Create items array
     const items = [];
-    itemId.forEach((itemId,index) => {
-        items.push({itemId: itemId,itemName: itemName[index], quantity: quantity[index], price: price[index], description: description[index]})
+    itemId.forEach((itemId, index) => {
+        items.push({ itemId: itemId, itemName: itemName[index], quantity: quantity[index], price: price[index], description: description[index] })
     })
 
 
     // Create order
     try {
         const orderId = await CreateCounter();
-        await connectMongoDb().catch(error=>console.log(error));
-        const order =  new Orders({
+        await connectMongoDb().catch(error => console.log(error));
+        const order = new Orders({
             orderId,
             customerObjId,
             shipping,
@@ -65,33 +67,33 @@ export async function CreateOrder(data) {
             user,
         })
         await order.save();
-        
-        return ({status: "success", order: order })
-    } catch (e)  {
+
+        return ({ status: "success", order: order })
+    } catch (e) {
         console.log(e);
-        return ({status: "error", message: e })
+        return ({ status: "error", message: e })
     }
 }
 
 // get orders list
 
-export async function getOrders(data){
+export async function getOrders(data) {
     try {
-        await connectMongoDb().catch(error=>console.log(error));
-        return await Orders.find(data).sort({createdAt: "desc"});
-    }catch (e) {
+        await connectMongoDb().catch(error => console.log(error));
+        return await Orders.find(data).sort({ createdAt: "desc" });
+    } catch (e) {
         console.log(e);
     }
 }
 
 // delete order
 
-export async function deleteOrder(id){
+export async function deleteOrder(id) {
     try {
-        await connectMongoDb().catch(error=>console.log(error));
+        await connectMongoDb().catch(error => console.log(error));
         await Orders.findByIdAndDelete(id);
-        return ({status: "success", message: "successfully deleted order"})
-    }catch (e) {
+        return ({ status: "success", message: "successfully deleted order" })
+    } catch (e) {
         console.log(e);
     }
 }
@@ -99,15 +101,15 @@ export async function deleteOrder(id){
 // get one order
 export async function getOrder(data) {
     try {
-        await connectMongoDb().catch(error=>console.log(error));
+        await connectMongoDb().catch(error => console.log(error));
         return await Orders.findOne(data);
 
-    }catch (e) {
+    } catch (e) {
         console.log(e);
     }
 }
 // fine order and update
-export async function findOrderandUpdate(filter,data) {
+export async function findOrderandUpdate(filter, data) {
     const street = await data?.get("street").toString();
     const city = await data?.get("city").toString();
     const state = await data?.get("state").toString();
@@ -146,20 +148,20 @@ export async function findOrderandUpdate(filter,data) {
 
     // Create items array
     const items = [];
-    itemId.forEach((itemId,index) => {
-        items.push({itemId: itemId,itemName: itemName[index], quantity: quantity[index], price: price[index], description: description[index]})
+    itemId.forEach((itemId, index) => {
+        items.push({ itemId: itemId, itemName: itemName[index], quantity: quantity[index], price: price[index], description: description[index] })
     })
 
     try {
-        await connectMongoDb().catch(error=>console.log(error));
-        const order = await Orders.findOneAndUpdate(filter,{
+        await connectMongoDb().catch(error => console.log(error));
+        const order = await Orders.findOneAndUpdate(filter, {
             shipping,
             billing,
             terms,
             items,
-        },{new: true});
-        return ({status: 'success', order})
-    }catch (e) {
+        }, { new: true });
+        return ({ status: 'success', order })
+    } catch (e) {
         console.log(e);
     }
 }
@@ -167,10 +169,60 @@ export async function findOrderandUpdate(filter,data) {
 //get orders 
 export async function getOrdersByUser(data) {
     try {
-        await connectMongoDb().catch(error=>console.log(error));
-        const orders = await Orders.find(data).sort({createdAt: "desc"});
+        await connectMongoDb().catch(error => console.log(error));
+        const orders = await Orders.find(data).sort({ createdAt: "desc" });
         return JSON.stringify(orders);
-    }catch (e) {
+    } catch (e) {
+        console.log(e);
+    }
+}
+/// export async function getOrders
+export async function getDailyOrders(data) {
+    const session = await getServerSession(authOptions);
+    const email = session?.user?.email;
+    const user = await UserExists(email);
+    try {
+
+        const { startDate, endDate } = data;
+        await connectMongoDb().catch(error => console.log(error));
+        const orders = await Orders.aggregate([
+            {
+                '$match': {
+                    'createdAt': {
+                        '$gte': startDate,
+                        '$lte': endDate
+                    },
+                    'user': user._id
+                }
+            }, {
+                '$unwind': {
+                    'path': '$items'
+                }
+            }, {
+                '$group': {
+                    '_id': {
+                        '$dateToString': {
+                            'format': '%Y-%m-%d',
+                            'date': '$createdAt'
+                        }
+                    },
+                    'Sale': {
+                        '$sum': {
+                            '$multiply': [
+                                '$items.price', '$items.quantity'
+                            ]
+                        }
+                    }
+                }
+            }, {
+                '$sort': {
+                    '_id': 1
+                }
+            }
+        ])
+        console.log('from orders action', user);
+        return JSON.stringify(orders);
+    } catch (e) {
         console.log(e);
     }
 }

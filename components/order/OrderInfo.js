@@ -19,7 +19,7 @@ export default async function OrderInfo({ id, user }) {
     order.items.forEach(item => subTotal += item.quantity * item.price)
 
     return (
-        <div className='w-[872px] min-h-[1220px] border-2 flex flex-col gap-5 px-10 py-5 actual-receipt text-black'>
+        <div className='w-[872px] min-h-[1200px] border-2 flex flex-col gap-5 px-10 py-5 actual-receipt text-black mx-auto my-5'>
             <div className='flex'>
                 <div><h1>Company Logo/Name</h1></div>
             </div>
@@ -29,7 +29,7 @@ export default async function OrderInfo({ id, user }) {
                 <div>Order# {order.orderId}</div>
             </div>
             <div className='capitalize flex w-full justify-between'>
-                <div className='OrderInfo border-[1px] w-[33%] p-3 rounded-md border-black/50'>
+                <div className='OrderInfo border-[1px] w-[33%] p-3 rounded-md border-black/50 min-h-[128px]'>
                     <h3>Billing Address</h3>
                     <div><h4>{customer.firstName} {customer.lastName}</h4>
                     </div>
@@ -41,7 +41,7 @@ export default async function OrderInfo({ id, user }) {
                         <h5>{order.billing.country}</h5>
                     </div>
                 </div>
-                <div className='OrderInfo border-[1px] w-[33%] p-3 rounded-md border-black/50'>
+                <div className='OrderInfo border-[1px] w-[33%] p-3 rounded-md border-black/50 min-h-[128px]'>
                     <h3>Shipping Address</h3>
 
                     <div><h4>{customer.firstName} {customer.lastName}</h4></div>
@@ -64,7 +64,7 @@ export default async function OrderInfo({ id, user }) {
                         <div className='col-span-2 text-center'>quantity</div>
                         <div className='col-span-1 text-center'>amount</div>
                     </div>
-                    <div className='border-2 flex flex-col gap-2'>
+                    <div className='border-2 flex flex-col gap-2 min-h-[600px]'>
                         {order.items.map((item, index) => {
                             return (
                                 <div key={index} className='grid grid-cols-12 w-full justify-between bg-slate-950/5 py-1 px-5 gap-x-5' >
@@ -81,9 +81,9 @@ export default async function OrderInfo({ id, user }) {
                     </div>
                 </div>
             </div>
-            <div>
-                Sub Total = {subTotal}
-            </div>
+            <div className='border-2 p-10 text-right'>
+                <h3>Sub Total = {subTotal}</h3></div>
+
         </div>
     )
 }

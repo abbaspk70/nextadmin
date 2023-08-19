@@ -12,9 +12,10 @@ import { useState } from 'react'
 import { useSession } from "next-auth/react"
 
 const navData = [
-  { title: 'home', path: '/dashboard', icon: <HiHome /> },
+  { title: 'home', path: '/dashboard/home', icon: <HiHome /> },
   { title: 'customers', path: '/dashboard/customers', icon: <FaRegUser /> },
   { title: 'orders', path: '/dashboard/orders', icon: <AiOutlineDollar /> },
+  { title: 'products', path: '/dashboard/products', icon: <AiOutlineRead /> },
   { title: 'terms', path: '/dashboard/terms', icon: <AiOutlineRead /> },
 
 ];
