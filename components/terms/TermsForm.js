@@ -1,24 +1,19 @@
-import React from 'react'
 import { CreateTerms } from '@/src/actions/termAction'
 import BtnSubmit from '../buttons/BtnSubmit';
 import BtnLink from '../buttons/BtnLink';
 import { GetTerms } from '@/src/actions/termAction';
 import { redirect } from 'next/navigation';
 
-export default async function ({ user }) {
-    user = JSON.parse(user);
-    const terms = await GetTerms(user);
+export default async function () {
+    const terms = await GetTerms();
     const handleSubmit = async (formData) => {
         'use server'
-        if (user) {
             try {
-                formData.append("user", user._id);
                 await CreateTerms(formData);
             } catch (err) {
                 console.error(err)
             }
-            redirect("/dashboard",);
-        }
+            redirect("/dashboard/home")
     };
     return (
         <div className='shadow-xl shadow-secondary/20 border-[1px]'>

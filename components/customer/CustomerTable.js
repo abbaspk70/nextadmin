@@ -1,6 +1,8 @@
-import React, { Suspense } from 'react'
+
 import Link from 'next/link'
+
 export default function CustomerTable({ customers }) {
+
     if (customers.length > 0)
     return (
         <div className='overflow-auto'>

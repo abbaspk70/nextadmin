@@ -1,18 +1,17 @@
 
-import { getCustomers } from '@/src/actions/customerAction';
+import { getCustomer, getCustomers } from '@/src/actions/customerAction';
 import { getOrder } from '@/src/actions/orderAction';
+import dayjs from 'dayjs';
 
-export default async function OrderInfo({ id, user }) {
+export default async function OrderInfo({id}) {
     let subTotal = 0;
-    const order = await getOrder({ _id: id, user: user });
+    const orderRes = await getOrder({ _id: id});
+    const order = JSON.parse(orderRes);
     const { street, city, state, zip, country } = order.shipping;
     //get date from order
-    const year = order.createdAt.getFullYear();
-    const month = order.createdAt.getMonth() + 1;
-    const day = order.createdAt.getDate();
 
-    const res = await getCustomers({ _id: order.customerObjId });
-    const customer = res.customers[0];
+    const res = await getCustomer({ _id: order.customerObjId });
+    const customer = JSON.parse(res);
 
 
     // calculate sub total
@@ -24,7 +23,7 @@ export default async function OrderInfo({ id, user }) {
                 <div><h1>Company Logo/Name</h1></div>
             </div>
             <div className=''>
-                <div>Order Date: {year}-{month}-{day}</div>
+                <div>Order Date: {dayjs(order.createdAt).format("YYYY-MM-YY")}</div>
                 <div>Customer# {customer.customerId}</div>
                 <div>Order# {order.orderId}</div>
             </div>

@@ -1,16 +1,18 @@
 'use client'
 import { useState, useEffect} from 'react';
-import Calc from './Calc';
 import {AiOutlineMinusCircle} from 'react-icons/ai'
 
 export default function OrderSummary({data}) {
-    //const orderItems = JSON.parse(data);
     let subTotal = 0;
-    const item = {itemId: '', itemName: '', quantity: 1, price: 0, description: ''}
-    const [items, setItems] = useState(data? JSON.parse(data):[{itemId: '', itemName: '', quantity: 1, price: 0, description: ''}]);
+    const item = {itemId: '', itemName: '', quantity: 1, price: 0, description: '',itemIdRef:null}
+    const [items, setItems] = useState(data? JSON.parse(data):[{itemId: '', itemName: '', quantity: 1, price: 0, description: '',itemIdRef:null}]);
+    //set focus
+    useEffect(()=>{
+        if (items[items.length - 1].itemIdRef)
+        items[items.length - 1].itemIdRef.focus();
+    }, [items.length])
     //add item
     const onKeyPress = (e,i) => {
-        console.log("pressed key", e.key)
         if (e.key === 'Enter') {
             e.preventDefault();
             setItems([...items,item]);
@@ -40,7 +42,7 @@ export default function OrderSummary({data}) {
                 return (
             <div key={i} className={`itemWrapper flex flex-col gap-2`}>
                 <div className='grid grid-cols-12 gap-x-3 items-center'>
-                    <input onChange={(e)=>handleChange(e,i)} value={item.itemId} className='col-span-2' type='text' name='itemId' placeholder='Item Id'/>
+                    <input ref={e=>item.itemIdRef = e} onChange={(e)=>handleChange(e,i)} value={item.itemId} className='col-span-2' type='text' name='itemId' placeholder='Item Id'/>
                     <input onChange={(e)=>handleChange(e,i)} value={item.itemName} className='col-span-5' type='text' name='itemName' placeholder='Item Name'/>
 
                     <input onChange={(e)=>handleChange(e,i)} value={item.quantity} className='col-span-2' type='text' name='quantity' placeholder='Quantity' />

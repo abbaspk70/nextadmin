@@ -1,16 +1,34 @@
 
 'use client'
 import CustomerTable from './CustomerTable';
-import { Suspense, useState } from'react';
+import { useState } from'react';
 import BtnSubmit from '../buttons/BtnSubmit';
 import BtnLink from '../buttons/BtnLink';
+import { getCustomers } from '@/src/actions/customerAction';
 
-export default function CustomersList({onSubmit}) {
+export default function CustomersList() {
     const [customers, setCustomers] = useState([]);
+
     const handleSubmit = async(formData)=> {
-        
-       const data =  await onSubmit(formData);
-       setCustomers(JSON.parse(data));
+        try {
+            const name = await formData.get('name');
+            const email = await formData.get('email');
+            const phone = await formData.get('phone').toString();
+            const customerId = await formData.get('customerId');
+      
+            const res = await getCustomers({
+                $and: [
+                 {"customerId" : { $regex: customerId }},
+                 {"contact.email": { $regex: `(?i)${email}`}},
+                 {$or:[ {"firstName": {$regex: `(?i)${name}` }},{"lastName": { $regex: `(?i)${name}` }}]},
+                 {$or:[{"contact.phone": {"$regex": phone }},{"contact.mobile": { "$regex": phone }}]},
+                ]
+                });
+            setCustomers(JSON.parse(res));
+            
+          } catch (error) {
+            console.log(error)
+          }
     }
     return (
         <div>

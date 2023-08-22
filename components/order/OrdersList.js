@@ -4,7 +4,6 @@ import { AiOutlineEdit, AiOutlinePause, AiOutlineCheck } from 'react-icons/ai'
 import BtnDeleteOrder from './BtnDeleteOrder'
 import { useState, useEffect } from'react';
 import dayjs from 'dayjs';
-import { getOrders } from '@/src/actions/orderAction';
 import { getOrdersByUser } from '@/src/actions/orderAction';
 import { useTransition } from 'react'
 import DataLoading from '../loaders/DataLoading';
@@ -42,7 +41,7 @@ export default function OrdersList({data}) {
                                     <div className='p-2 flex-grow-[7]'>{dayjs(order.createdAt).format("YYYY-MM-DD")}</div>
 
                                     <div className='p-2'>{order.status === "Pending" ? <AiOutlinePause/> : <AiOutlineCheck className="text-green" />}</div>
-                                    <a href={`/dashboard/edit/order/${order._id}`} className='p-2'><AiOutlineEdit /></a>
+                                    <Link href={`/dashboard/edit/order/${order._id}`} className='p-2'><AiOutlineEdit /></Link>
                                     <div className='p-2 text-red-600 cursor-pointer'><BtnDeleteOrder id={JSON.stringify(order._id)}/></div>
                                 </div>
                             )

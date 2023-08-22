@@ -11,7 +11,6 @@ export async function UserExists(email) {
     try {
         await connectMongoDb();
         const user = await Users.findOne({email}).select("_id");
-        console.log(user);
         return user;
     } catch (err) { 
         console.log(err);

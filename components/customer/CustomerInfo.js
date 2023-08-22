@@ -1,10 +1,7 @@
-import React, { Suspense } from 'react'
-import BtnLoader from '../loaders/BtnLoader'
 
 export default function CustomerInfo({ customer }) {
-    const { customerId, firstName, lastName, contact, address } = customer
+    const {contact, address } = customer
     return (
-        <Suspense fallback={<BtnLoader/>}>
         <div className='w-full flex flex-col md:flex-row gap-y-5 justify-evenly items-start font-light'>
             <div className='text-xl'>
                 <h3 className='font-normal'>Contact</h3>
@@ -21,6 +18,5 @@ export default function CustomerInfo({ customer }) {
                 <h4>Country: {address.country}</h4>
             </div>
         </div>
-        </Suspense>
     )
 }

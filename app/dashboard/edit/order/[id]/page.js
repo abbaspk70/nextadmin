@@ -1,7 +1,5 @@
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { UserExists } from '@/src/actions/userAction';
-import { getCustomers } from '@/src/actions/customerAction';
+
+import { getCustomer } from '@/src/actions/customerAction';
 import { redirect } from 'next/navigation';
 import CustomerInfo from '@/components/order/orderFormComp/CustomerInfo';
 import TermsInfo from '@/components/order/orderFormComp/TermsInfo';
@@ -13,13 +11,9 @@ import { findOrderandUpdate } from '@/src/actions/orderAction';
 
 export default async function page({ params }) {
     const { id } = params;
-    console.log(id);
-    const session = await getServerSession(authOptions);
-    //get user
-    const email = session.user.email;
-    const user = await UserExists(email)
     //get order
-    const order = await getOrder({ _id: id, user: user });
+    const res = await getOrder({ _id: id });
+    const order = JSON.parse(res);
     if (!order) {
         redirect("/dashboard/orders");
     }
@@ -28,22 +22,18 @@ export default async function page({ params }) {
     const data = JSON.stringify(order.items);
     //get customer
     const customerObjId = order.customerObjId
-    const customers = await getCustomers({ _id: customerObjId, user: user })
-    const customer = customers.customers[0];
+    const customerRes = await getCustomer({ _id: customerObjId })
+    const customer = JSON.parse(customerRes);
     //handle submit
     const handleSubmit = async (formData) => {
         'use server'
-        if (user) {
-            try {
-                var {status} = await findOrderandUpdate({ _id: id }, formData);
-            } catch (err) {
-                console.log(err);
-                return
-            }
-            if (status === 'success') {
-                 redirect(`/dashboard/orders/${id}`);
-            }
+        try {
+            await findOrderandUpdate({ _id: id }, formData);
+        } catch (err) {
+            console.log(err);
+            return
         }
+        redirect(`/dashboard/orders/${order._id}`)
     }
     return (
         <div className='my-20 px-5 md:ml-[300px]'>
