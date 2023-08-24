@@ -7,9 +7,11 @@ import DataLoading from "@/components/loaders/DataLoading";
 import ProductsList from "./ProductsList";
 
 export default function SearchProduct() {
-    const [data, setData] = useState("");
+    const [data, setData] = useState({});
     const handleSubmit= async(formData)=> { 
-        setData(formData);
+        const productId = formData.get('productId')?.toString();
+        const title = formData.get('title').toString();
+        setData({productId: { "$regex": `(?i)${productId}` },title: { "$regex": `(?i)${title}` }});
     };
   return (
     <div>

@@ -1,7 +1,6 @@
 import { CreateOrder } from '@/src/actions/orderAction';
 import { getCustomer } from '@/src/actions/customerAction';
 import { getCustomerAndUpdate } from '@/src/actions/customerAction';
-import { redirect } from 'next/navigation';
 import CustomerInfo from '@/components/order/orderFormComp/CustomerInfo';
 import TermsInfo from '@/components/order/orderFormComp/TermsInfo';
 import OrderSummary from '@/components/order/orderFormComp/OrderSummary';
@@ -20,7 +19,6 @@ export default async function page({ searchParams }) {
     //handle submit
     const handleSubmit = async (formData) => {
         'use server'
-
         formData.append("customerObjId", customer._id);
         const res = await CreateOrder(formData);
         const { order } = res;

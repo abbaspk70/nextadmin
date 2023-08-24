@@ -16,18 +16,16 @@ export async function getUser() {
 // get Products list
 export async function GetProducts(data) {
     try {
-        const filterData = {};
+        let filterData = {};
         const user = await getUser()
+        if(user) {
         filterData.user = user._id
         if (data) {
-            const productId = data.get('productId')?.toString();
-            const title = data.get('title').toString();
-            filterData.productId = { "$regex": `(?i)${productId}` };
-            filterData.title = { "$regex": `(?i)${title}` };
+            filterData = {...filterData, ...data}
         }
         const products = await Products.find(filterData)
         return (JSON.stringify(products))
-
+    }
     } catch (err) {
         console.log(err)
     }
