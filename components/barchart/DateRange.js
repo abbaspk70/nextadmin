@@ -15,13 +15,13 @@ export default function DateRange() {
         <div className="bg-secondary w-full p-5 flex flex-col justify-center items-center gap-2 text-center rounded-t-lg">
           <h2>Sales Period</h2>
           <div className='flex flex-col sm:flex-row w-full lg:w-[50%] gap-5 justify-center items-center'>
-            <div>
-              <label>Start Date</label>
+            <div className='flex flex-col gap-2 text-left'>
+              <label>From</label>
               <input onChange={(e) => setStartDate(new Date(e.target.value))} type="date" name='startDate' placeholder='YYYY-MM-DD' defaultValue={dayjs(startDate).format('YYYY-MM-DD')}/>
             </div>
-            <div>
-              <label>End Date</label>
-              <input onChange={(e) => setEndDate(new Date(`${e.target.value}T23:59:59Z`))} type="date" name='startDate' placeholder='none' defaultValue={dayjs(endDate).format('YYYY-MM-DD')} />
+            <div className='flex flex-col gap-2 text-left'>
+              <label>To</label>
+              <input onChange={(e) => setEndDate(new Date(`${e.target.value}T23:59:59Z`))} type="date" name='startDate' placeholder='YYYY-MM-DD' defaultValue={dayjs(endDate).format('YYYY-MM-DD')} />
             </div>
           </div>
         </div>

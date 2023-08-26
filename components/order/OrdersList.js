@@ -20,7 +20,7 @@ export default function OrdersList({data}) {
     },[data]);
     if (orders.length> 0)
         return (
-            <div className='overflow-auto'>
+            <div className=''>
               {isPending? <DataLoading/>: 
                 <div className='tablecontainer w-full flex flex-col justify-between'>
                     <div className='tablehead flex flex-col text-primary'>
@@ -32,17 +32,18 @@ export default function OrdersList({data}) {
                             <div className='p-2'></div>
                         </div>
                     </div>
-                    <div className='rowhead flex flex-col text-black'>
+                    <div className='rowhead flex flex-col text-black [&>*:nth-child(even)]:bg-slate-200'>
                         {orders.map((order, index) => {
                             return (
-                                <div key={index} className='tablerow flex items-center gap-2 border-b-[1px] bg-slate-100'>
+                                <div key={index} className='tablerow  flex items-center gap-2 border-b-[1px] bg-slate-100'>
                                     <Link className='p-2 flex-grow-[7]' href={`/dashboard/orders/${order._id}`} ><div className=''>{order.orderId}</div></Link>
                                     {/* <div className='p-2 flex-grow-[7]'>{order.createdAt.getFullYear()}-{order.createdAt.getMonth()+1}-{order.createdAt.getDate()}</div> */}
                                     <div className='p-2 flex-grow-[7]'>{dayjs(order.createdAt).format("YYYY-MM-DD")}</div>
 
-                                    <div className='p-2'>{order.status === "Pending" ? <AiOutlinePause/> : <AiOutlineCheck className="text-green" />}</div>
-                                    <Link href={`/dashboard/edit/order/${order._id}`} className='p-2'><AiOutlineEdit /></Link>
-                                    <div className='p-2 text-red-600 cursor-pointer'><BtnDeleteOrder id={JSON.stringify(order._id)}/></div>
+                                    <div className='has-tooltip p-2'><Tooltip data={`Status: ${order.status}`}/>{order.status === "Pending" ? <AiOutlinePause/> : <AiOutlineCheck className="text-green" />}
+                                    </div>
+                                    <Link href={`/dashboard/edit/order/${order._id}`} className='action has-tooltip p-2'><Tooltip data={"Edit"}/><AiOutlineEdit /></Link>
+                                    <div className='action p-2 text-red-600 cursor-pointer has-tooltip'><Tooltip data={"Delet"}/><BtnDeleteOrder id={JSON.stringify(order._id)}/></div>
                                 </div>
                             )
                         })}
@@ -50,4 +51,11 @@ export default function OrdersList({data}) {
                 </div>}
             </div>
         )
+}
+
+
+const Tooltip = ({data})=>{
+    return (
+<span className='tooltip'>{data}</span>
+    )
 }

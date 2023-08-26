@@ -1,6 +1,7 @@
 
 export default function CustomerInfo({ customer }) {
-    const {contact, address } = customer
+    const {contact, address} = customer;
+    
     return (
         <div className='w-full flex flex-col md:flex-row gap-y-5 justify-evenly items-start font-light'>
             <div className='text-xl'>
@@ -15,6 +16,7 @@ export default function CustomerInfo({ customer }) {
                 <h4>Street: {address.street}</h4>
                 <h4>City: {address.city}</h4>
                 <h4>State: {address.state}</h4>
+                <h4>Zip: {address?.zip}</h4>
                 <h4>Country: {address.country}</h4>
             </div>
         </div>

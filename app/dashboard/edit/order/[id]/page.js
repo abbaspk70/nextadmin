@@ -8,6 +8,7 @@ import BtnSubmit from '@/components/buttons/BtnSubmit';
 import BtnLink from '@/components/buttons/BtnLink';
 import { getOrder } from '@/src/actions/orderAction';
 import { findOrderandUpdate } from '@/src/actions/orderAction';
+import DeliverOrder from '@/components/order/orderFormComp/DeliverOrder';
 
 export default async function page({ params }) {
     const { id } = params;
@@ -47,6 +48,7 @@ export default async function page({ params }) {
                         <hr />
                         <TermsInfo terms={terms} />
                         <OrderSummary data={data} />
+                        <DeliverOrder/>
                         <div className='flex gap-5 w-full justify-end'>
                             <BtnSubmit title={"Save"} />
                             <BtnLink title={"Cancel"} link={"/dashboard/customers"} />

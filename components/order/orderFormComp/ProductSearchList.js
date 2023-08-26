@@ -10,6 +10,7 @@ export default function ProductSearchList({ data, onSubmit }) {
     const [products, setProducts] = useState([]);
     useEffect(() => {
         const handleData = async () => {
+            console.log(data);
             const products = await GetProducts(data)
             setProducts(JSON.parse(products));
         };

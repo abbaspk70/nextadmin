@@ -1,8 +1,5 @@
 import CustomersList from '@/components/customer/CustomersList';
-import { getCustomers } from '@/src/actions/customerAction';
-import { revalidatePath, } from 'next/cache';
-import DataLoading from '@/components/loaders/DataLoading';
-import { Suspense } from 'react';
+
 
 export default async function page() {
 

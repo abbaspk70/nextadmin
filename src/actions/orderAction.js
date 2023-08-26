@@ -2,9 +2,6 @@
 import Orders from "@/model/orders";
 import { connectMongoDb } from "@/lib/mongodb";
 import { CreateCounter } from "./counterAction";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { UserExists } from "./userAction";
 import { getUser } from "./productAction";
 import { redirect } from "next/navigation";
 
@@ -12,6 +9,7 @@ import { redirect } from "next/navigation";
 export async function CreateOrder(data) {
     const user = await getUser();
     if (user) {
+        console.log(data);
         const customerObjId = await data?.get("customerObjId");
         const street = await data?.get("street").toString();
         const city = await data?.get("city").toString();
@@ -29,6 +27,7 @@ export async function CreateOrder(data) {
         const description = await data?.getAll("description");
         const quantity = await data?.getAll("quantity");
         const price = await data?.getAll("price");
+        const status = await data?.get("status");
 
 
         // Create shipping object
@@ -53,8 +52,9 @@ export async function CreateOrder(data) {
         // Create items array
         const items = [];
         itemId.forEach((itemId, index) => {
+            if (itemId !== "") {
             items.push({ itemId: itemId, itemName: itemName[index], quantity: quantity[index], price: price[index], description: description[index] })
-        })
+    }})
 
 
         // Create order
@@ -67,6 +67,7 @@ export async function CreateOrder(data) {
                 billing,
                 terms,
                 items,
+                status: status? "Delivered" : "Pending",
                 user: user._id,
             })
             await order.save();
@@ -137,6 +138,7 @@ export async function findOrderandUpdate(filter, data) {
         const description = await data?.getAll("description");
         const quantity = await data?.getAll("quantity");
         const price = await data?.getAll("price");
+        const status = await data?.get("status");
 
         // Create shipping object
         const shipping = {
@@ -160,19 +162,23 @@ export async function findOrderandUpdate(filter, data) {
         // Create items array
         const items = [];
         itemId.forEach((itemId, index) => {
+            if (itemId !== "") {
             items.push({ itemId: itemId, itemName: itemName[index], quantity: quantity[index], price: price[index], description: description[index] })
-        })
+        }
+    })
 
         try {
             if (filter) {
                 var filterData = { ...filter, user: user._id }
             }
+            console.log(status)
             await connectMongoDb().catch(error => console.log(error));
             var order = await Orders.findOneAndUpdate(filterData, {
                 shipping,
                 billing,
                 terms,
                 items,
+                status: status? "Delivered" : "Pending"
             }, { new: true });
         } catch (e) {
             console.log(e);
@@ -213,7 +219,8 @@ export async function getDailyOrders(data) {
                         '$gte': startDate,
                         '$lte': endDate
                     },
-                    'user': user._id
+                    'user': user._id,
+                    'status': 'Delivered'
                 }
             }, {
                 '$unwind': {

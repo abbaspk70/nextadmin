@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { UserExists } from "./userAction";
 import { redirect } from "next/navigation";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 // get user Id logged in 
 export async function getUser() {
@@ -119,6 +120,19 @@ export async function getOneProduct(data) {
         } catch (err) {
             console.log(err)
         }
+    }
+}
+
+// delete one product
+export async function deleteOneProduct(id, path) {
+    const user = await getUser()
+    if (user) { 
+        try {
+            await Products.findOneAndDelete({_id: id, user: user._id})
+         } catch (err) {
+            console.log("Error deleting Product",err)
+        }
+        revalidatePath(path);
     }
 }
 

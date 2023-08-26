@@ -1,7 +1,6 @@
 'use client'
 import { useState, useEffect} from 'react';
 import {AiOutlineMinusCircle} from 'react-icons/ai'
-import { Fragment } from 'react';
 import ProductModal from './ProductModal';
 import { getOneProduct } from '@/src/actions/productAction';
 
@@ -29,6 +28,8 @@ export default function OrderSummary({data}) {
         items[items.length - 1].itemIdRef.focus();
     }, [items.length])
 
+
+
     //add item
     const onKeyPress = (e) => {
         if (e.key === 'Enter') {
@@ -50,6 +51,13 @@ export default function OrderSummary({data}) {
     const updateVal = [...items]
     updateVal[i][name] = value
     setItems(updateVal)
+
+    if(name === "itemId"){
+        setFilterData({...filterData, productId: {$regex: `(?i)${value}`}})
+    }
+    if(name === "itemName"){
+        setFilterData({...filterData, title: {$regex: `(?i)${value}`}})
+    }
     
     if(name === 'itemId' || name === 'itemName'){
     setShowModal(true)   
@@ -57,12 +65,6 @@ export default function OrderSummary({data}) {
     filterData={filterData} onSubmit={async(e)=>handleClick(e,i)}/>
 }
 
-    if(name === "itemId"){
-    setFilterData({...filterData, productId: {$regex: `(?i)${value}`}})
-}
-if(name === "itemName"){
-    setFilterData({...filterData, title: {$regex: `(?i)${value}`}})
-}
   };
   items.forEach(item => {
     subTotal += item.price * item.quantity;
@@ -86,7 +88,7 @@ if(name === "itemName"){
                     <input onChange={(e)=>handleChange(e,i)} className='col-span-8' type='text' value={item.description} name='description' placeholder='Description' autoComplete="off"/>
                     <div className='col-span-4 text-center'>sum {item.quantity * item.price}</div>
                 </div>
-                {item.modal && (<div className='relative bg-black/30 p-3 w-fit rounded-md overflow-auto'>{item.modal}</div>)}
+                {item.modal && (<div className='relative bg-black/30 p-3 rounded-md'>{item.modal}</div>)}
             </div>
                  )
                 })}

@@ -7,6 +7,7 @@ import OrderSummary from '@/components/order/orderFormComp/OrderSummary';
 import BtnSubmit from '@/components/buttons/BtnSubmit';
 import BtnLink from '@/components/buttons/BtnLink';
 import { GetTerms } from '@/src/actions/termAction';
+import DeliverOrder from '@/components/order/orderFormComp/DeliverOrder';
 
 
 export default async function page({ searchParams }) {
@@ -36,10 +37,12 @@ export default async function page({ searchParams }) {
                         <hr />
                         <TermsInfo terms={terms} />
                         <OrderSummary />
+                        <DeliverOrder/>
                         <div className='flex gap-5 w-full justify-end'>
                             <BtnSubmit title={"Save"} />
                             <BtnLink title={"Cancel"} link={"/dashboard/customers"} />
                         </div>
+                        
                     </div>
                 </form>
             </div>

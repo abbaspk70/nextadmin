@@ -3,17 +3,20 @@ import React from 'react'
 import { useState } from 'react'
 import BtnSubmit from '../buttons/BtnSubmit'
 import BtnLink from '../buttons/BtnLink'
-import { CreateCustomer } from '@/src/actions/customerAction'
 
-export default function FormCustomer() {
+export default function FormCustomer({customerData,onSubmit}) {
+    if(customerData) {
+        var customer = JSON.parse(customerData);
+    }
     const [error, setError] = useState("");
+  
     const handleSubmit = async(formData) => {
         const firstName = formData.get('firstName')
         if (!firstName) {
             setError("First name is required")
             return;
         }
-        await CreateCustomer(formData);
+        await onSubmit(formData);
     }
     return (
 
@@ -24,29 +27,30 @@ export default function FormCustomer() {
 
             <div className='w-full'> Full Name (required)
                 <div className="flex flex-col md:flex-row justify-center items-center gap-2">
-                    <input type="text" placeholder='First Name' name='firstName' />
-                    <input type="text" placeholder='Last Name' name='lastName' />
+                    <input type="text" placeholder='First Name' name='firstName' defaultValue={customer?.firstName} />
+                    <input type="text" placeholder='Last Name' name='lastName' defaultValue={customer?.lastName} />
                 </div >
             </div>
             <div className="w-full flex flex-col gap-2">Contact
                 <div className="flex flex-col md:flex-row justify-center items-center gap-2">
-                    <input type="text" placeholder='Phone' name='phone' />
-                    <input type="text" placeholder='Mobile' name='mobile' /></div>
-                <input type="text" placeholder='Email' name='email' />
+                    <input type="text" placeholder='Phone' name='phone' defaultValue={customer?.contact?.phone} />
+                    <input type="text" placeholder='Mobile' name='mobile' defaultValue={customer?.contact?.mobile} /></div>
+                <input type="text" placeholder='Email' name='email' defaultValue={customer?.contact?.email}/>
 
             </div>
             <div className='w-full flex flex-col gap-y-2'>Address
                 <div>
-                    <input className="" type="text" placeholder='Address' name='street' />
+                    <input className="" type="text" placeholder='Address' name='street' defaultValue={customer?.address?.street} />
                 </div>
                 <div className='flex flex-col md:flex-row justify-center items-center gap-2'>
-                    <input type="text" placeholder='City' name='city' />
-                    <input type="text" placeholder='State' name='state' />
-                    <input type="text" placeholder='Country' name='country' />
+                    <input type="text" placeholder='City' name='city' defaultValue={customer?.address?.city}/>
+                    <input type="text" placeholder='State' name='state' defaultValue={customer?.address?.state} />
+                    <input type="text" placeholder='Zip Code' name='zip' defaultValue={customer?.address?.zip}/>
+                    <input type="text" placeholder='Country' name='country' defaultValue={customer?.address?.country} />
                 </div>
             </div>
             <div className='flex gap-x-5'>
-                <BtnSubmit title={"Create"} />
+                <BtnSubmit title={"Save"} />
                 <BtnLink title={"cancel"} link={"/dashboard/customers"} />
             </div>
 
