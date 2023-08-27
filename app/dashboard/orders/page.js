@@ -9,7 +9,6 @@ export default async function page() {
         </div>
       <div className='p-5  border-2 shadow-lg shadow-secondary/20 text-black rounded-b-md'>
         <div className='flex flex-col gap-5'>
-          {/* <SearchOrder filterData={JSON.stringify(data)}/> */}
           <SearchOrder/>
         </div>
       </div>

@@ -13,7 +13,9 @@ export default function SearchOrder() {
 
   const handleSubmit = (formData) => {
     const orderId = formData.get('orderId');
-    setData({ ...data, orderId: { "$regex": orderId }, createdAt: { $gte: startDate, $lte: endDate } });
+    const status = formData.get('status').toString();
+    console.log(status);
+    setData({ ...data, orderId: { "$regex": orderId }, createdAt: { $gte: startDate, $lte: endDate },status:{$ne: status}});
   };
   return (
     <div>
@@ -29,7 +31,11 @@ export default function SearchOrder() {
             <input onChange={(e) => setEndDate(new Date(`${e.target.value}T23:59:59Z`))} type="date" name='endDate' placeholder="YYYY-MM-DD" defaultValue={dayjs(endDate).format("YYYY-MM-DD")} />
           </div>
           <div className='flex flex-col gap-2'><label>Status</label>
-            <input type="text" name='status' placeholder="Status" />
+            <select className="" id="status" name="status">
+              <option value="any">Any</option>
+              <option value="Delivered">Pending</option>
+              <option value="Pending">Delivered</option>
+            </select>
           </div>
         </div>
         <div className='flex w-full justify-end items-center gap-x-5'>

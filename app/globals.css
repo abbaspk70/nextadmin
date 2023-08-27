@@ -29,7 +29,7 @@ body {
 }
 
 @layer components {
-  input, textarea {
+  input, textarea, select {
     @apply px-5 py-2 rounded-sm text-black w-full border-slate-300 border-[0.5px] placeholder:italic
   }
   h2 {
