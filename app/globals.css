@@ -121,13 +121,13 @@ input[type=checkbox] {
 @apply relative inline-block;
 }
 .has-tooltip:hover .tooltip {
-  @apply visible z-[1000];
+  @apply visible;
 }
 .has-tooltip .tooltip {
-  @apply invisible z-50 text-center absolute w-32 bottom-full left-[50%] -ml-14 rounded shadow-lg p-1 bg-gray-100 -mt-8;
+  @apply invisible z-30 text-center absolute w-32 bottom-full left-[50%] -ml-14 rounded shadow-lg p-1 bg-gray-100 -mt-8;
 }
 .tablerow .action {
-@apply invisible
+@apply lg:invisible
 }
 .tablerow:hover .action {
 @apply visible;

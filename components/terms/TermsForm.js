@@ -16,7 +16,7 @@ export default async function () {
         redirect("/dashboard/home")
     };
     return (
-        <div className=''>
+        <div className='w-full'>
             <div className='rounded-t-md p-2 bg-secondary text-center capitalize'>
                 <h2>Sales terms & condidtions</h2>
             </div>

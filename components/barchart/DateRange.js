@@ -5,8 +5,7 @@ import PerformanceBarChart from './BarChart';
 import dayjs from 'dayjs';
 
 export default function DateRange() {
-  const date = new Date()
-  const [startDate, setStartDate] = useState(new Date(`${date.getFullYear()}-${date.getMonth() + 1}-01`));
+  const [startDate, setStartDate] = useState(new Date(`2023-08-01`));
   const [endDate, setEndDate] = useState(new Date());
   const data = { startDate: startDate, endDate: endDate };
   return (

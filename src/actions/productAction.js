@@ -124,7 +124,7 @@ export async function getOneProduct(data) {
 }
 
 // delete one product
-export async function deleteOneProduct(id, path) {
+export async function deleteOneProduct(id) {
     const user = await getUser()
     if (user) { 
         try {
@@ -132,7 +132,6 @@ export async function deleteOneProduct(id, path) {
          } catch (err) {
             console.log("Error deleting Product",err)
         }
-        revalidatePath(path);
     }
 }
 

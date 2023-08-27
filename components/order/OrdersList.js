@@ -1,23 +1,38 @@
 'use client'
 import Link from 'next/link'
-import { AiOutlineEdit, AiOutlinePause, AiOutlineCheck } from 'react-icons/ai'
-import BtnDeleteOrder from './BtnDeleteOrder'
+import { AiOutlineEdit, AiOutlinePause, AiOutlineCheck, AiOutlineDelete } from 'react-icons/ai'
 import { useState, useEffect } from'react';
 import dayjs from 'dayjs';
-import { getOrdersByUser } from '@/src/actions/orderAction';
+import { deleteOrder, getOrdersByUser } from '@/src/actions/orderAction';
 import { useTransition } from 'react'
 import DataLoading from '../loaders/DataLoading';
+import DeleteModal from '../modals/DeleteModal';
 
 export default function OrdersList({data}) {
+    const [showModal, setShowModal] = useState(false)
+    const [id,setId] = useState()
   let [isPending, startTransition] = useTransition()
     const [orders, setOrders] = useState([]);
+
+    //get Order List 
     useEffect(()=>{
       const handleData = async () => { 
         const orderData = await getOrdersByUser(data)
         setOrders(JSON.parse(orderData));
       };
       startTransition(() => handleData())
-    },[data]);
+    },[data, orders.length]);
+    //handle click and set order id
+    const handleClick = (i) => {
+        setShowModal(true);
+        setId(orders[i]._id);
+    }
+    //handle Delete order
+    const handleDelete = async()=> {
+        await deleteOrder(id)
+        setShowModal(false);
+        setOrders([])
+    };
     if (orders.length> 0)
         return (
             <div className=''>
@@ -43,12 +58,13 @@ export default function OrdersList({data}) {
                                     <div className='has-tooltip p-2'><Tooltip data={`Status: ${order.status}`}/>{order.status === "Pending" ? <AiOutlinePause/> : <AiOutlineCheck className="text-green" />}
                                     </div>
                                     <Link href={`/dashboard/edit/order/${order._id}`} className='action has-tooltip p-2'><Tooltip data={"Edit"}/><AiOutlineEdit /></Link>
-                                    <div className='action p-2 text-red-600 cursor-pointer has-tooltip'><Tooltip data={"Delet"}/><BtnDeleteOrder id={JSON.stringify(order._id)}/></div>
+                                    <div onClick={()=>handleClick(index)} className='action p-2 text-red-600 cursor-pointer has-tooltip'><Tooltip data={"Delet"}/><AiOutlineDelete/></div>
                                 </div>
                             )
                         })}
                     </div>
                 </div>}
+                <DeleteModal isVisibile={showModal} setShowModal={setShowModal} handleDelete={handleDelete}/>
             </div>
         )
 }
