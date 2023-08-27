@@ -16,13 +16,11 @@ export default async function page({searchParams}) {
         'use server';
         if(id) {
             formData.append('_id', id);
-            await updateProduct(formData);
-            return
+            const res = await updateProduct(formData);
+            return res;
         }
-        const response = await createProduct(formData);
-        if (response.status === "error") {
-            console.log(response.message);
-        }
+        const res = await createProduct(formData);
+        return res;
     };
     return (
         <div className='my-20 px-5 md:ml-[300px] xl:px-80'>

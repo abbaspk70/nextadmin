@@ -52,7 +52,7 @@ export async function createProduct(data) {
             if (isProduct) {
                 const productExists = JSON.parse(isProduct);
                 if (productExists) {
-                    return { status: "error", message: "product Id already exists"}
+                    return { status: "error", message: "product id exists, choose another"}
                 }
             }
             await Products.create({
@@ -88,7 +88,7 @@ export async function updateProduct(data) {
                 if (productExists) {
                     if(productExists._id !== _id) {
                         console.log('product eixists', productExists.productId, productId);
-                        return ({status: 'error', message: 'product id already exist'})
+                        return ({status: 'error', message: 'product id exists, choose another'})
                     }
                 }
             }

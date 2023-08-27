@@ -1,10 +1,12 @@
-import { getUser } from "@/src/actions/productAction"
 
 export default async function page() {
-    await getUser()
   return (
-    <div className='text-black'>
-      from test
+    <div className='text-black w-[80%] mx-auto skeleton animate-pulse'>
+      <div className="p-3 w-full bg-accent/50 rounded-md my-3"></div>
+      <div className="p-2 w-full bg-accent/50 rounded-md my-2"></div>
+      <div className="p-2 w-full bg-accent/50 rounded-md my-2"></div>
+      <div className="p-2 w-full bg-accent/50 rounded-md my-2"></div>
+
     </div> 
   )
 }

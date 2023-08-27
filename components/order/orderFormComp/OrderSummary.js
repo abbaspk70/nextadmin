@@ -28,8 +28,6 @@ export default function OrderSummary({data}) {
         items[items.length - 1].itemIdRef.focus();
     }, [items.length])
 
-
-
     //add item
     const onKeyPress = (e) => {
         if (e.key === 'Enter') {
@@ -51,6 +49,8 @@ export default function OrderSummary({data}) {
     const updateVal = [...items]
     updateVal[i][name] = value
     setItems(updateVal)
+    console.log("from handle change",[items[i]].itemId)
+    console.log("from handle change",value)
 
     if(name === "itemId"){
         setFilterData({...filterData, productId: {$regex: `(?i)${value}`}})

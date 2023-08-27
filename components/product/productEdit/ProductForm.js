@@ -14,17 +14,18 @@ export default function ProductForm({ onSubmit, data }) {
         if (productId || title)
             setError("");
     }, [productId, title])
+
     const handleSubmit = async (formData) => {
         if (!productId || !title) {
             setError("Product id and title are required");
             return
         }
-        await onSubmit(formData)
+        const res = await onSubmit(formData)
+        setError(res.message);
     }
-    console.log(productId)
     return (
         <form action={handleSubmit} className='text-black px-5'>
-            {(error) && (<div className='bg-red-600 text-primary px-5 py-2 rounded-md my-3'>
+            {(error) && (<div className='bg-red-600 text-primary w-fit px-5 py-2 rounded-md my-3'>
                 {error}
             </div>
             )}

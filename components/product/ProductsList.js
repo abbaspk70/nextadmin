@@ -38,7 +38,7 @@ export default function ProductsList({ data }) {
         return (
             <div className='relative overflow-x-auto'>
                 {isPending ? <DataLoading /> :
-                    <div className='tablecontainer min-w-[450px] max-w-[90%] flex flex-col justify-between mx-auto py-5'>
+                    <div className='tablecontainer min-w-[450px] flex flex-col justify-between mx-auto py-5'>
                         <div className='tablehead text-primary'>
                             <div className='tablerow flex items-center bg-accent gap-2 px-2 rounded-t-md'>
                                 <div className='p-2 flex-grow-0 w-[20%]'>Id</div>

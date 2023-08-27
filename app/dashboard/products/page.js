@@ -1,6 +1,5 @@
 import DataLoading from "@/components/loaders/DataLoading";
 import SearchProduct from "@/components/product/SearchProduct";
-import { Suspense } from "react";
 
 export default async function page() {
   return (
@@ -10,7 +9,7 @@ export default async function page() {
         </div>
       <div className='p-5  border-2 shadow-lg shadow-secondary/20 text-black rounded-b-md'>
         <div className='flex flex-col gap-5'>
-          <Suspense fallback={<DataLoading/>}><SearchProduct/></Suspense>
+          <SearchProduct/>
         </div>
       </div>
     </div>
