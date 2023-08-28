@@ -38,11 +38,11 @@ export default function ProductsList({ data }) {
         return (
             <div className='relative overflow-x-auto'>
                 {isPending ? <DataLoading /> :
-                    <div className='tablecontainer min-w-[450px] flex flex-col justify-between mx-auto py-5'>
+                    <div className='tablecontainer min-w-[709px] flex flex-col justify-between mx-auto py-5'>
                         <div className='tablehead text-primary'>
                             <div className='tablerow flex items-center bg-accent gap-2 px-2 rounded-t-md'>
-                                <div className='p-2 flex-grow-0 w-[20%]'>Id</div>
-                                <div className='p-2 flex-grow-0 w-[60%]'>Title</div>
+                                <div className='p-2 flex-grow-0 w-[25%]'>Id</div>
+                                <div className='p-2 flex-grow-0 w-[55%]'>Title</div>
                                 <div className='p-2 flex-grow-0 w-[10%]'>Price</div>
                                 <div className='p-2 flex-grow-0 w-[5%] bg-amber-60'></div>
                                 <div className='p-2 flex-grow-0 w-[5%] bg-amber-60'></div>
@@ -52,8 +52,8 @@ export default function ProductsList({ data }) {
                             {products.map((product, index) => {
                                 return (
                                     <div key={index} className='tablerow flex items-center gap-2 border-b-[1px] px-2 bg-slate-100'>
-                                        <div className='p-2 flex-grow-0 w-[20%]'>{product.productId}</div>
-                                        <div className='p-2 flex-grow-0 w-[60%]'>{product.title}</div>
+                                        <div className='p-2 flex-grow-0 w-[25%]'>{product.productId}</div>
+                                        <div className='p-2 flex-grow-0 w-[55%]'>{product.title}</div>
                                         <div className='p-2 flex-grow-0 w-[10%]'>{product.price}</div>
                                         <Link className='action has-tooltip p-2 flex-grow-0 w-[5%]' href={`/dashboard/create/product?id=${product._id}`}><Tooltip data={"Edit"}/><AiOutlineEdit /></Link>
                                         <div onClick={()=>handleClick(index)} className='action has-tooltip p-2 flex-grow-0 w-[5%] text-red-600 cursor-pointer'><Tooltip data={"Delete"}/><AiOutlineDelete/></div>

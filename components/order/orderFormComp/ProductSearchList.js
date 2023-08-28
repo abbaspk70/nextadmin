@@ -19,7 +19,7 @@ export default function ProductSearchList({ data, onSubmit }) {
         return (
             <div className='overflow-auto'>
                 {isPending ? <DataLoading /> :
-                    <div className='tablecontainer min-w-[450px] w-full flex flex-col justify-between'>
+                    <div className='tablecontainer min-w-[600px] w-full flex flex-col justify-between'>
                         <div className='tablehead text-primary'>
                             <div className='tablerow flex items-center bg-accent gap-2 rounded-t-md'>
                                 <div className='p-2 flex-grow-0 w-[25%]'>Id</div>

@@ -56,20 +56,20 @@ export default async function OrderInfo({id}) {
                 <h2 className='text-center mx-auto'>Order Details</h2>
                 <div>
                     <div className='grid grid-cols-12 w-full font-semibold justify-between bg-slate-950 text-primary py-2 px-5 rounded-t-md gap-x-5' >
-                        <div className='col-span-2'>itemId</div>
-                        <div className='col-span-5'>Name</div>
-                        <div className='col-span-2 text-center'>price</div>
-                        <div className='col-span-2 text-center'>quantity</div>
+                        <div className='col-span-3'>itemId</div>
+                        <div className='col-span-6'>Name</div>
+                        <div className='col-span-1 text-center'>price</div>
+                        <div className='col-span-1 text-center'>q</div>
                         <div className='col-span-1 text-center'>amount</div>
                     </div>
                     <div className='border-2 flex flex-col gap-2 min-h-[570px]'>
                         {order.items.map((item, index) => {
                             return (
                                 <div key={index} className='grid grid-cols-12 w-full justify-between bg-slate-950/5 py-1 px-5 gap-x-5' >
-                                    <div className='col-span-2'>{item.itemId}</div>
-                                    <div className='col-span-5'>{item.itemName}</div>
-                                    <div className='col-span-2 text-center'>{item.price}</div>
-                                    <div className='col-span-2 text-center'>{item.quantity}</div>
+                                    <div className='col-span-3'>{item.itemId}</div>
+                                    <div className='col-span-6'>{item.itemName}</div>
+                                    <div className='col-span-1 text-center'>{item.price}</div>
+                                    <div className='col-span-1 text-center'>{item.quantity}</div>
                                     <div className='text-center'>{item.price * item.quantity}</div>
                                 </div>
                             )
