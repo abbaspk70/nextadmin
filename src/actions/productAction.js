@@ -15,20 +15,25 @@ export async function getUser() {
 }
 
 // get Products list
-export async function GetProducts(data) {
-    try {
-        let filterData = {};
-        const user = await getUser()
-        if(user) {
-        filterData.user = user._id
-        if (data) {
-            filterData = {...filterData, ...data}
+export async function getProducts(data, pData) {
+    const user = await getUser();
+    if (user) {
+        try {
+            // pagination data
+            const { currentPage } = await pData
+            const { itemsPerPage } = await pData
+            // set filter object
+            let filter = { user: user._id };
+            if (data) {
+                filter = { ...filter, ...data }
+            }
+            const products = await Products.find(filter).skip((currentPage - 1) * itemsPerPage).limit(itemsPerPage);
+
+            const totalProducts = await Products.find(filter).count();
+            return (JSON.stringify({ data: { totalPages: Math.ceil(totalProducts / itemsPerPage), products: products } }))
+        } catch (err) {
+            console.log(err)
         }
-        const products = await Products.find(filterData)
-        return (JSON.stringify(products))
-    }
-    } catch (err) {
-        console.log(err)
     }
 }
 
@@ -52,7 +57,7 @@ export async function createProduct(data) {
             if (isProduct) {
                 const productExists = JSON.parse(isProduct);
                 if (productExists) {
-                    return { status: "error", message: "product id exists, choose another"}
+                    return { status: "error", message: "product id exists, choose another" }
                 }
             }
             await Products.create({
@@ -86,9 +91,9 @@ export async function updateProduct(data) {
             if (isProduct) {
                 const productExists = JSON.parse(isProduct);
                 if (productExists) {
-                    if(productExists._id !== _id) {
+                    if (productExists._id !== _id) {
                         console.log('product eixists', productExists.productId, productId);
-                        return ({status: 'error', message: 'product id exists, choose another'})
+                        return ({ status: 'error', message: 'product id exists, choose another' })
                     }
                 }
             }
@@ -126,11 +131,11 @@ export async function getOneProduct(data) {
 // delete one product
 export async function deleteOneProduct(id) {
     const user = await getUser()
-    if (user) { 
+    if (user) {
         try {
-            await Products.findOneAndDelete({_id: id, user: user._id})
-         } catch (err) {
-            console.log("Error deleting Product",err)
+            await Products.findOneAndDelete({ _id: id, user: user._id })
+        } catch (err) {
+            console.log("Error deleting Product", err)
         }
     }
 }

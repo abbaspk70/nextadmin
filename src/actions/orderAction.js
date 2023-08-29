@@ -53,8 +53,9 @@ export async function CreateOrder(data) {
         const items = [];
         itemId.forEach((itemId, index) => {
             if (itemId !== "") {
-            items.push({ itemId: itemId, itemName: itemName[index], quantity: quantity[index], price: price[index], description: description[index] })
-    }})
+                items.push({ itemId: itemId, itemName: itemName[index], quantity: quantity[index], price: price[index], description: description[index] })
+            }
+        })
 
 
         // Create order
@@ -67,7 +68,7 @@ export async function CreateOrder(data) {
                 billing,
                 terms,
                 items,
-                status: status? "Delivered" : "Pending",
+                status: status ? "Delivered" : "Pending",
                 user: user._id,
             })
             await order.save();
@@ -163,9 +164,9 @@ export async function findOrderandUpdate(filter, data) {
         const items = [];
         itemId.forEach((itemId, index) => {
             if (itemId !== "") {
-            items.push({ itemId: itemId, itemName: itemName[index], quantity: quantity[index], price: price[index], description: description[index] })
-        }
-    })
+                items.push({ itemId: itemId, itemName: itemName[index], quantity: quantity[index], price: price[index], description: description[index] })
+            }
+        })
 
         try {
             if (filter) {
@@ -178,7 +179,7 @@ export async function findOrderandUpdate(filter, data) {
                 billing,
                 terms,
                 items,
-                status: status? "Delivered" : "Pending"
+                status: status ? "Delivered" : "Pending"
             }, { new: true });
         } catch (e) {
             console.log(e);
@@ -188,24 +189,8 @@ export async function findOrderandUpdate(filter, data) {
     }
 }
 
-//get orders 
-export async function getOrdersByUser(data) {
-    let filterData = {};
-    try {
-        const user = await getUser();
-        if (user) {
-            filterData.user = user._id;
-            if (data) {
-                filterData = { ...filterData, ...data };
-            }
-        }
-        const orders = await Orders.find(filterData).sort({ createdAt: "desc" });
-        return JSON.stringify(orders);
-    } catch (e) {
-        console.log(e);
-    }
-}
-/// export async function getOrders
+
+/// get aggregated orders for home page
 export async function getDailyOrders(data) {
     const user = await getUser();
     try {
@@ -251,5 +236,29 @@ export async function getDailyOrders(data) {
         return JSON.stringify(orders);
     } catch (e) {
         console.log(e);
+    }
+}
+
+//get orders by page number 
+export async function getOrdersByUser(data, req) {
+    const user = await getUser();
+    if (user) {
+        try {
+            const { currentPage } = req;
+            const ordersPerPage = req.ordersPerPage;
+            let filter = { user: user._id }
+            if (data) {
+                filter = { ...filter, ...data }
+            }
+            const orders = await Orders.find(filter).sort({ createdAt: -1 }).skip((currentPage - 1) * ordersPerPage).limit(ordersPerPage)
+
+            const totalOrders = await Orders.find(filter).count()
+            try {
+                return (JSON.stringify({ data: { totalPages: Math.ceil(totalOrders / ordersPerPage) }, orders: orders }))
+            } catch (e) {
+                console.log(e);
+            }
+        } catch (e) { console.log(e); }
+
     }
 }

@@ -2,19 +2,30 @@
 
 import { useState, useEffect } from 'react';
 import { useTransition } from 'react'
-import { GetProducts } from '@/src/actions/productAction';
+import { getProducts } from '@/src/actions/productAction';
 import DataLoading from '@/components/loaders/DataLoading';
 
 export default function ProductSearchList({ data, onSubmit }) {
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+    const itemsPerPage = 10;
+    const pData = {currentPage, itemsPerPage};
+
+
     let [isPending, startTransition] = useTransition()
     const [products, setProducts] = useState([]);
     useEffect(() => {
         const handleData = async () => {
-            const products = await GetProducts(data)
-            setProducts(JSON.parse(products));
+            const res = await getProducts(data, pData);
+            const result = JSON.parse(res);
+            const {products} = result.data;
+            setProducts(products);
+            const {totalPages} = result.data;
+            setTotalPages(totalPages);
+           
         };
         startTransition(() => handleData())
-    }, [data]);
+    }, [data, currentPage]);
     if (products.length > 0)
         return (
             <div className='overflow-auto'>

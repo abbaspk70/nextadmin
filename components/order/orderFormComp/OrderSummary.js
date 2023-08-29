@@ -5,8 +5,8 @@ import ProductModal from './ProductModal';
 import { getOneProduct } from '@/src/actions/productAction';
 
 export default function OrderSummary({data}) {
-    const [filterData, setFilterData] = useState({})
-    const [showModal, setShowModal] = useState(false);
+    const [filterData, setFilterData] = useState({});
+    const [showModal, setShowModal] = useState(true);
     let subTotal = 0;
     const item = {itemId: '', itemName: '', quantity: 1, price: 0, description: '',itemIdRef:null, modal: '' }
     const [items, setItems] = useState(data? JSON.parse(data):[{itemId: '', itemName: '', quantity: 1, price: 0, description: '',itemIdRef:null, modal: ''}]);
@@ -20,7 +20,6 @@ export default function OrderSummary({data}) {
         updateVal = [...updateVal,item];
         setItems(updateVal)
         setFilterData({});
-        setShowModal(false);
      };
     //set focus
     useEffect(()=>{
@@ -49,20 +48,24 @@ export default function OrderSummary({data}) {
     const updateVal = [...items]
     updateVal[i][name] = value
     setItems(updateVal)
-    console.log("from handle change",[items[i]].itemId)
-    console.log("from handle change",value)
 
     if(name === "itemId"){
-        setFilterData({...filterData, productId: {$regex: `(?i)${value}`}})
+        var updatedFilter = {...filterData};
+        updatedFilter.productId = {$regex:`(?i)${value}`}
+        setFilterData(updatedFilter);
+        //setFilterData({...filterData, productId: {$regex:`(?i)${value}`}})
+
     }
     if(name === "itemName"){
-        setFilterData({...filterData, title: {$regex: `(?i)${value}`}})
+        //setFilterData({...filterData, title: {$regex: `(?i)${value}`}})
+        updatedFilter = {...filterData};
+        updatedFilter.title = {$regex:`(?i)${value}`}
+        setFilterData(updatedFilter);
+
     }
     
     if(name === 'itemId' || name === 'itemName'){
-    setShowModal(true)   
-    items[i].modal = <ProductModal isVisible={showModal} onClose={() => setShowModal(false)}
-    filterData={filterData} onSubmit={async(e)=>handleClick(e,i)}/>
+    items[i].modal = <ProductModal isVisible={showModal} filterData={updatedFilter} onSubmit={async(e)=>handleClick(e,i)}/>
 }
 
   };
